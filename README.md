@@ -1,17 +1,17 @@
-# NuMaker-M3334KI
+# NuMaker-M3351KJ
 
 ## 1. Introduction
-The NuMaker M3334KI is a microcontroller platform with comprehensive peripheral integration specially developed by Nuvoton. The NuMaker-M3334KI is based on the NuMicro® M3331 series MCU with ARM® -Cortex®-M33 core.
+The NuMaker M3351KJis a microcontroller platform with comprehensive peripheral integration specially developed by Nuvoton. The NuMaker-M3351KJ is based on the NuMicro® M3331 series MCU with ARM® -Cortex®-M33 core.
 
 
 ### 1.1 MCU specification
 
 |  | Features |
 | -- | -- |
-| MCU | 32-bit Arm CM33 M3334KIGAE |
-| Operation frequency | 180 MHz |
-| Embedded Flash size | 512KB, Dual Bank |
-| SRAM size | 320 kB |
+| MCU | 32-bit Arm CM33 M3351KJCAE |
+| Operation frequency | 144 MHz |
+| Embedded Flash size | 1024MB |
+| SRAM size | 128 kB |
 
 ### 1.2 Interface
 
@@ -25,14 +25,13 @@ The NuMaker M3334KI is a microcontroller platform with comprehensive peripheral 
 | Device | Description | Driver supporting status |
 | -- | -- | -- |
 | LED | on-board | Supported |
-| HSUSB | DRP (HOST or Device Role) | Supported |
+| FSUSB | Device | Supported |
 
 ### 1.4 Extended boards
 
 | Board | Description | Driver supporting status |
 | -- | -- | -- |
 | NUTFT | v1.3 | Supported |
-| NUFUN | v2.0 | Coming soon |
 
 ## 2. Supported compiler
 
@@ -50,7 +49,7 @@ Notice:
 
 ### Step 1
 
-At first, you need to configure ICESW2 switch on the NuMaker-M2L31KI board. Set the four switches to ‘ON’ position. After the configuration is done, connect the NuMaker-M2L31KI board and your computer using the USB Type-C cable. After that, window manager will show a ‘NuMicro MCU’ virtual disk. Finally, you will use this virtual disk to burn firmware.
+At first, you need to configure switch on the NuMaker board. Set the four switches to ‘ON’ position. After the configuration is done, connect the NuMaker board and your computer using the USB Type-C cable. After that, window manager will show a ‘NuMicro MCU’ virtual disk. Finally, you will use this virtual disk to burn firmware.
 
 ### Step 2
 
