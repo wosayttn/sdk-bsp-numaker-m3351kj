@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd" >
+  <name>M3351</name>
+  <version>1.0</version>
+  <description>M3351 SVD file</description>
+  <!-- Bus Interface Properties -->
+  <!-- Cortex-M0 is byte addressable -->
+  <addressUnitBits>8</addressUnitBits>
+  <!-- the maximum data bit width accessible within a single transfer is 32bits -->
+  <width>32</width>
+
+  <!-- Register Default Properties -->
+  <!-- the size of the registers is set to a bit width of 32. This can be overruled for individual peripherals and/or registers -->
+  <size>32</size>
+  <!-- the access to all registers is set to be readable and writeable. This can be overruled for individual peripherals and/or registers -->
+  <access>read-write</access>
+  <!-- for demonstration purposes the resetValue for all registers of the device is set to be 0. This can be overruled within the description -->
+  <resetValue>0</resetValue>
+  <!-- the resetMask = 0 specifies that by default no register of this device has a defined reset value -->
+  <resetMask>0</resetMask>
+
+  <peripherals>
+    <peripheral>
+      <name>SYS</name>
+      <description>SYS Register Map</description>
+      <groupName>SYS</groupName>
+      <baseAddress>0x40000000</baseAddress>
+      <!-- d -> no access permission -->
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x4</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+       <register>
+          <name>SYS_PDID</name>
+          <!-- the display name is an unrestricted string. -->
+          <displayName>SYS_PDID</displayName>
+          <description>Part Device Identification Number Register</description>
+          <addressOffset>0x0</addressOffset>
+          <access>read-only</access>
+          <resetValue>0x01E33340</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>PDID</name>
+              <description>Part Device Identification Number (Read Only)\nThis register reflects device part number code. Software can read this register to identify which device is used.</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+            </field>
+          </fields>
+       </register>
+      </registers>
+    </peripheral>
+  </peripherals>
+</device>
