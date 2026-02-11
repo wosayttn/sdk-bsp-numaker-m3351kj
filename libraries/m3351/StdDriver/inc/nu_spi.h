@@ -66,7 +66,7 @@ extern "C"
 
 /* SPI Clock Source */
 #define SPI_CLKSEL_HXT                    (0x0UL)
-#define SPI_CLKSEL_PLL_DIV2               (0x1UL)
+#define SPI_CLKSEL_PLL                    (0x1UL)
 #define SPI_CLKSEL_PCLK2                  (0x2UL)
 #define SPI_CLKSEL_HIRC                   (0x3UL)
 

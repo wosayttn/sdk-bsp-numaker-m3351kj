@@ -106,9 +106,10 @@ extern "C"
 /*---------------------------------------------------------------------------------------------------------*/
 /*  VREFCTL constant definitions. (Write-Protection Register)                                              */
 /*---------------------------------------------------------------------------------------------------------*/
-#define SYS_VREFCTL_VREF_2_5V           (0x1UL << SYS_VREFCTL_VREFRSEL_Pos)    /*!< Vref = 2.5V \hideinitializer */
-#define SYS_VREFCTL_VREF_3_0V           (0x2UL << SYS_VREFCTL_VREFRSEL_Pos)    /*!< Vref = 3.0V \hideinitializer */
-#define SYS_VREFCTL_VREF_4_0V           (0x3UL << SYS_VREFCTL_VREFRSEL_Pos)    /*!< Vref = 4.5V \hideinitializer */
+#define SYS_VREFCTL_VREF_PIN            (0x0UL << SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = Vref pin \hideinitializer */
+#define SYS_VREFCTL_VREF_2_5V           (0x3UL << SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 2.5V \hideinitializer */
+#define SYS_VREFCTL_VREF_3_0V           (0x5UL << SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 3.0V \hideinitializer */
+#define SYS_VREFCTL_VREF_4_0V           (0x7UL << SYS_VREFCTL_VREFCTL_Pos)    /*!< Vref = 4.5V \hideinitializer */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  USBPHY constant definitions. (Write-Protection Register)                                               */

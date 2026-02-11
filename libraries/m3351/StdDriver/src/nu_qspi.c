@@ -65,8 +65,8 @@ static uint32_t QSPI_GetModuleClkSrcFrq(const QSPI_T *qspi)
 
     switch (u32QSPIClkSrcSel)
     {
-        case QSPI_CLKSEL_PLL_DIV2:
-            u32RetValue = (CLK_GetPLLClockFreq() >> 1);   /* Clock source is APLL0 */
+        case QSPI_CLKSEL_PLL:
+            u32RetValue = CLK_GetPLLClockFreq();   /* Clock source is APLL0 */
             break;
 
         case QSPI_CLKSEL_PCLK:

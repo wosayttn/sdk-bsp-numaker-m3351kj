@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: Apache-2.0
  * @copyright (C) 2025 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
+
 #ifndef __NU_CRC_H__
 #define __NU_CRC_H__
 
@@ -13,7 +14,6 @@
 extern "C"
 {
 #endif
-
 
 /** @addtogroup Standard_Driver Standard Driver
   @{
@@ -26,6 +26,7 @@ extern "C"
 /** @addtogroup CRC_EXPORTED_CONSTANTS CRC Exported Constants
   @{
 */
+
 /*---------------------------------------------------------------------------------------------------------*/
 /*  CRC Polynomial Mode Constant Definitions                                                               */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -49,7 +50,7 @@ extern "C"
 #define CRC_CPU_WDATA_16    (1UL << CRC_CTL_DATLEN_Pos) /*!<CRC CPU Write Data length is 16-bit \hideinitializer */
 #define CRC_CPU_WDATA_32    (2UL << CRC_CTL_DATLEN_Pos) /*!<CRC CPU Write Data length is 32-bit \hideinitializer */
 
-/**@}*/ /* end of group CRC_EXPORTED_CONSTANTS */
+/** @} end of group CRC_EXPORTED_CONSTANTS */
 
 
 /** @addtogroup CRC_EXPORTED_FUNCTIONS CRC Exported Functions
@@ -93,7 +94,7 @@ extern "C"
  * @details    User can write data directly to CRC Write Data Register(CRC_DAT) by this macro to perform CRC operation.
  * \hideinitializer
  */
-#define CRC_WRITE_DATA(u32Data) (CRC->DAT = (u32Data))
+#define CRC_WRITE_DATA(u32Data)   (CRC->DAT = (u32Data))
 
 /**
   * @brief      Set CRC Polynomial Value
@@ -119,7 +120,7 @@ extern "C"
  * @details     This macro is used to enable the CRC DMA interrupt.
  * \hideinitializer
  */
-#define CRC_ENABLE_DMA_INT()                (CRC->DMACTL |= CRC_DMACTL_INTEN_Msk)
+#define CRC_ENABLE_DMA_INT()              ((CRC)->DMACTL |= CRC_DMACTL_INTEN_Msk)
 
 /**
  * @brief       Disable CRC DMA Interrupt
@@ -131,7 +132,7 @@ extern "C"
  * @details     This macro is used to disable the CRC DMA interrupt.
  * \hideinitializer
  */
-#define CRC_DISABLE_DMA_INT()               (CRC->DMACTL &= ~(CRC_DMACTL_INTEN_Msk))
+#define CRC_DISABLE_DMA_INT()             ((CRC)->DMACTL &= ~(CRC_DMACTL_INTEN_Msk))
 
 /**
  * @brief       Abort CRC DMA Operation
@@ -143,7 +144,7 @@ extern "C"
  * @details     This macro is used to abort the CRC DMA operation.
  * \hideinitializer
  */
-#define CRC_DMA_ABORT()                     (CRC->DMACTL |= CRC_DMACTL_ABORT_Msk)
+#define CRC_DMA_ABORT()                   ((CRC)->DMACTL |= CRC_DMACTL_ABORT_Msk)
 
 /**
  * @brief       Pause CRC DMA Operation
@@ -155,7 +156,7 @@ extern "C"
  * @details     This macro is used to pause the CRC DMA operation.
  * \hideinitializer
  */
-#define CRC_DMA_PAUSE()                     (CRC->DMACTL |= CRC_DMACTL_PAUSE_Msk)
+#define CRC_DMA_PAUSE()                   ((CRC)->DMACTL |= CRC_DMACTL_PAUSE_Msk)
 
 /**
  * @brief       Resume CRC DMA Operation
@@ -177,10 +178,10 @@ extern "C"
  * @retval      0   CRC DMA operation in progress
  * @retval      1   CRC DMA operation Paused
  *
- * @details     This macro is used to check if CRC DMA operation is Pasused.
+ * @details     This macro is used to check if CRC DMA operation is paused.
  * \hideinitializer
  */
- #define CRC_IS_DMA_PAUSE()                ((CRC->DMACTL & CRC_DMACTL_PAUSE_Msk)? 1 : 0)
+#define CRC_IS_DMA_PAUSE()                ((CRC)->DMACTL & CRC_DMACTL_PAUSE_Msk)
 
 /**
  * @brief       Start CRC DMA Operation
@@ -192,7 +193,7 @@ extern "C"
  * @details     This macro is used to start the CRC DMA operation.
  * \hideinitializer
  */
-#define CRC_DMA_START()                     (CRC->DMACTL |= CRC_DMACTL_START_Msk)
+#define CRC_DMA_START()                   ((CRC)->DMACTL |= CRC_DMACTL_START_Msk)
 
 /**
  * @brief       Set CRC DMA Source Address
@@ -202,10 +203,10 @@ extern "C"
  * @return      None
  *
  * @details     This macro is used to set the source address for CRC DMA operation.
- * @note        This source addrese must be word-aligned(4-bytes), and should be aligned to 16 words(64-bytes) for Flash XOM region.
+ * @note        This source address must be word-aligned(4-bytes), and should be aligned to 16 words(64-bytes) for Flash XOM region.
  * \hideinitializer
  */
-#define CRC_SET_DMA_SADDR(u32Addr)          (CRC->SADDR = (u32Addr))
+#define CRC_SET_DMA_SADDR(Addr)         ((CRC)->SADDR = (Addr))
 
 /**
  * @brief       Set CRC DMA Size
@@ -228,7 +229,7 @@ extern "C"
  * @return      None
  *
  * @details     This macro is used to set the operation word count for CRC DMA operation.
- * @note        This operation size must be word-aligned(4-bytes), and should be aligned to 16 words64-bytes) for Flash XOM region.
+ * @note        This operation size must be word-aligned(4-bytes), and should be aligned to 16 words(64-bytes) for Flash XOM region.
  * \hideinitializer
  */
 #define CRC_SET_DMA_WORD_CNT(u32WordCnt)    (CRC->DMACNT = ((u32WordCnt) << CRC_DMACNT_DMACNT_Pos))
@@ -245,18 +246,15 @@ extern "C"
  */
 #define CRC_GET_DMA_STATUS()                (CRC->DMASTS)
 
-
 void CRC_Open(uint32_t u32Mode, uint32_t u32Attribute, uint32_t u32Seed, uint32_t u32DataLen);
 uint32_t CRC_GetChecksum(void);
 
-/**@}*/ /* end of group CRC_EXPORTED_FUNCTIONS */
-
-/**@}*/ /* end of group CRC_Driver */
-
-/**@}*/ /* end of group Standard_Driver */
+/** @} end of group CRC_EXPORTED_FUNCTIONS */
+/** @} end of group CRC_Driver */
+/** @} end of group Standard_Driver */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __NU_CRC_H__ */
+#endif

@@ -67,7 +67,7 @@ extern "C"
 
 /* QSPI Clock Source */
 #define QSPI_CLKSEL_HXT                 (0x0UL)
-#define QSPI_CLKSEL_PLL_DIV2            (0x1UL)
+#define QSPI_CLKSEL_PLL                 (0x1UL)
 #define QSPI_CLKSEL_PCLK                (0x2UL)
 #define QSPI_CLKSEL_HIRC                (0x3UL)
 

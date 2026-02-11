@@ -90,7 +90,9 @@ __STATIC_INLINE uint8_t CACHE_IsBusy(void)
  */
 __STATIC_INLINE void CACHE_EnableHitMonitor(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_HITMEN_Msk;
+    __ISB();
 }
 
 /**
@@ -102,7 +104,9 @@ __STATIC_INLINE void CACHE_EnableHitMonitor(void)
  */
 __STATIC_INLINE void CACHE_DisableHitMonitor(void)
 {
+    __DSB();
     CACHE->CTL &= ~CACHE_CTL_HITMEN_Msk;
+    __ISB();
 }
 
 /**
@@ -114,7 +118,9 @@ __STATIC_INLINE void CACHE_DisableHitMonitor(void)
  */
 __STATIC_INLINE void CACHE_EnableMissMonitor(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_MISSMEN_Msk;
+    __ISB();
 }
 
 /**
@@ -126,7 +132,9 @@ __STATIC_INLINE void CACHE_EnableMissMonitor(void)
  */
 __STATIC_INLINE void CACHE_DisableMissMonitor(void)
 {
+    __DSB();
     CACHE->CTL &= ~CACHE_CTL_MISSMEN_Msk;
+    __ISB();
 }
 
 /**
@@ -138,7 +146,9 @@ __STATIC_INLINE void CACHE_DisableMissMonitor(void)
  */
 __STATIC_INLINE void CACHE_ResetHitMonitor(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_HITMRST_Msk;
+    __ISB();
 }
 
 /**
@@ -150,7 +160,9 @@ __STATIC_INLINE void CACHE_ResetHitMonitor(void)
  */
 __STATIC_INLINE void CACHE_ResetMissMonitor(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_MISSMRST_Msk;
+    __ISB();
 }
 
 /**
@@ -213,7 +225,9 @@ __STATIC_INLINE void CACHE_Flush(void)
  */
 __STATIC_INLINE void CACHE_EnableParityCheck(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_CACHEPEN_Msk;
+    __ISB();
 }
 
 /**
@@ -225,7 +239,9 @@ __STATIC_INLINE void CACHE_EnableParityCheck(void)
  */
 __STATIC_INLINE void CACHE_DisableParityCheck(void)
 {
+    __DSB();
     CACHE->CTL &= ~CACHE_CTL_CACHEPEN_Msk;
+    __ISB();
 }
 
 /**
@@ -237,7 +253,9 @@ __STATIC_INLINE void CACHE_DisableParityCheck(void)
  */
 __STATIC_INLINE void CACHE_EnableParityCheckInt(void)
 {
+    __DSB();
     CACHE->CTL |= CACHE_CTL_PERRIEN_Msk;
+    __ISB();
 }
 
 /**
@@ -249,7 +267,9 @@ __STATIC_INLINE void CACHE_EnableParityCheckInt(void)
  */
 __STATIC_INLINE void CACHE_DisableParityCheckInt(void)
 {
+    __DSB();
     CACHE->CTL &= ~CACHE_CTL_PERRIEN_Msk;
+    __ISB();
 }
 
 /**
@@ -263,7 +283,9 @@ __STATIC_INLINE void CACHE_DisableParityCheckInt(void)
  */
 __STATIC_INLINE void CACHE_SetParityErrorAction(uint32_t u32ParityErrorAction)
 {
+    __DSB();
     CACHE->CTL = ((CACHE->CTL & ~CACHE_CTL_PERRRD_Msk) | u32ParityErrorAction);
+    __ISB();
 }
 
 /**
@@ -300,7 +322,9 @@ __STATIC_INLINE uint32_t CACHE_GetParityErrorStatus(void)
  */
 __STATIC_INLINE void CACHE_ClrParityErrorStatus(void)
 {
+    __DSB();
     CACHE->STS = CACHE_STS_PERRIF_Msk;
+    __ISB();
 }
 
 /**

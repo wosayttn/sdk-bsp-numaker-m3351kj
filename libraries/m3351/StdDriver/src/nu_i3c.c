@@ -383,8 +383,6 @@ void I3C_PresentStateInfo(I3C_DEVICE_T *dev)
             {
                 I3C_DrvMsg("\nController Write Transfer Ongoing\n");
             }
-            //else if(sts == 4) Not support in M3331
-            //    I3C_DrvMsg("\nRead Data Prefetch State\n");
             else if (sts == 5)
             {
                 I3C_DrvMsg("\nController Read Transfer Ongoing\n");

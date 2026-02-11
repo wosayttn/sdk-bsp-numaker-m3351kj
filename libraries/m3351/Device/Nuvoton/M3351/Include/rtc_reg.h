@@ -240,6 +240,23 @@ typedef struct
      * |[7]     |RTCCKSEL  |RTC Clock Source Selection
      * |        |          |0 = Clock source from external low speed crystal oscillator (LXT).
      * |        |          |1 = Clock source from internal low speed RC oscillator (LIRC).
+     * |[22:16] |XTLGAIN   |XTL32K Gain Setting
+     * |        |          |Refer to XTLGAINEN.
+     * |        |          |Note 1: This field only active under XTLGAINEN is set to 1.
+     * |        |          |Note 2: After chip power-on, this field default value is defined by ROMMAP35[5:0].
+     * |[23]    |XTLGAINEN |XTL32K Gain Enable Bit
+     * |        |          |0 = XTL32K gain control disabled.
+     * |        |          |1 = XTL32K gain control enabled.
+     * |        |          |XTL32K gain setting:
+     * |        |          |L0 => XTLGAINTB: 9, XTLGAIN: 4.
+     * |        |          |L1 => XTLGAINTB: 45, XTLGAIN: 13.
+     * |        |          |L2 => XTLGAINTB: 45, XTLGAIN: 23.
+     * |        |          |L3 => XTLGAINTB: 45, XTLGAIN: 33.
+     * |        |          |Note: The default value for XTL32K gain must be manually set to L3 via software.
+     * |[30:24] |XTLGAINTB |XTL32K Gain Turbo Setting
+     * |        |          |Refer to XTLGAINEN.
+     * |        |          |Note 1: This field only active under XTLGAINEN is set to 1.
+     * |        |          |Note 2: After chip power-on, this field default value is defined by ROMMAP35[11:6].
      * @var RTC_T::DSTCTL
      * Offset: 0x110  RTC Daylight Saving Time Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -443,6 +460,15 @@ typedef struct
 
 #define RTC_LXTCTL_RTCCKSEL_Pos          (7)                                               /*!< RTC_T::LXTCTL: RTCCKSEL Position       */
 #define RTC_LXTCTL_RTCCKSEL_Msk          (0x1ul << RTC_LXTCTL_RTCCKSEL_Pos)                /*!< RTC_T::LXTCTL: RTCCKSEL Mask           */
+
+#define RTC_LXTCTL_XTLGAIN_Pos           (16)                                              /*!< RTC_T::LXTCTL: XTLGAIN Position        */
+#define RTC_LXTCTL_XTLGAIN_Msk           (0x7ful << RTC_LXTCTL_XTLGAIN_Pos)                /*!< RTC_T::LXTCTL: XTLGAIN Mask            */
+
+#define RTC_LXTCTL_XTLGAINEN_Pos         (23)                                              /*!< RTC_T::LXTCTL: XTLGAINEN Position      */
+#define RTC_LXTCTL_XTLGAINEN_Msk         (0x1ul << RTC_LXTCTL_XTLGAINEN_Pos)               /*!< RTC_T::LXTCTL: XTLGAINEN Mask          */
+
+#define RTC_LXTCTL_XTLGAINTB_Pos         (24)                                              /*!< RTC_T::LXTCTL: XTLGAINTB Position      */
+#define RTC_LXTCTL_XTLGAINTB_Msk         (0x7ful << RTC_LXTCTL_XTLGAINTB_Pos)              /*!< RTC_T::LXTCTL: XTLGAINTB Mask          */
 
 #define RTC_DSTCTL_ADDHR_Pos             (0)                                               /*!< RTC_T::DSTCTL: ADDHR Position          */
 #define RTC_DSTCTL_ADDHR_Msk             (0x1ul << RTC_DSTCTL_ADDHR_Pos)                   /*!< RTC_T::DSTCTL: ADDHR Mask              */

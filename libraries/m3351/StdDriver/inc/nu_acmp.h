@@ -316,10 +316,10 @@ extern int32_t g_ACMP_i32ErrCode;
   * @param[in] acmp The pointer of the specified ACMP module
   * @param[in] u32Level  The comparator reference voltage setting.
   *             The formula is:
-  *                       comparator reference voltage CRV0 = CRV0 source voltage * u32Level / 63
-  *             The range of u32Level is 0 ~ 63.
+  *                       comparator reference voltage CRV0 = CRV0 source voltage * u32Level / 255
+  *             The range of u32Level is 0 ~ 255.
   * @return   None
-  * @details  When CRV0 is selected as ACMP negative input source, the CRV0 level is determined by CRV0SEL (ACMP_VREF[5:0]).
+  * @details  When CRV0 is selected as ACMP negative input source, the CRV0 level is determined by CRV0SEL (ACMP_VREF[7:0]).
   * \hideinitializer
   */
 #define ACMP_CRV0_SEL(acmp, u32Level) ((acmp)->VREF = ((acmp)->VREF & ~(ACMP_VREF_CRV0SEL_Msk | ACMP_VREF_CRV0EN_Msk)) | (((u32Level)<<ACMP_VREF_CRV0SEL_Pos)| ACMP_VREF_CRV0EN_Msk))
@@ -341,10 +341,10 @@ extern int32_t g_ACMP_i32ErrCode;
   * @param[in] acmp The pointer of the specified ACMP module
   * @param[in] u32Level  The comparator reference voltage setting.
   *             The formula is:
-  *                       comparator reference voltage CRV1 = CRV1 source voltage * u32Level / 63
-  *             The range of u32Level is 0 ~ 63.
+  *                       comparator reference voltage CRV1 = CRV1 source voltage * u32Level / 255
+  *             The range of u32Level is 0 ~ 255.
   * @return   None
-  * @details  When CRV1 is selected as ACMP negative input source, the CRV1 level is determined by CRV1SEL (ACMP_VREF[21:16]).
+  * @details  When CRV1 is selected as ACMP negative input source, the CRV1 level is determined by CRV1SEL (ACMP_VREF[23:16]).
   * \hideinitializer
   */
 #define ACMP_CRV1_SEL(acmp, u32Level) ((acmp)->VREF = ((acmp)->VREF & ~(ACMP_VREF_CRV1SEL_Msk | ACMP_VREF_CRV1EN_Msk)) | (((u32Level)<<ACMP_VREF_CRV1SEL_Pos) | ACMP_VREF_CRV1EN_Msk))
@@ -437,6 +437,7 @@ void ACMP_Calibration(ACMP_T *acmp);
 
 #ifdef __cplusplus
 }
+
 #endif
 
 #endif /* __NU_ACMP_H__ */

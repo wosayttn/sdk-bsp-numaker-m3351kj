@@ -257,6 +257,7 @@ void SHA_Open(CRYPTO_T *crypto, uint32_t u32OpMode, uint32_t u32SwapType, uint32
     if (hmac_key_len != 0UL)
     {
         crypto->HMAC_KEYCNT = hmac_key_len;
+        crypto->HMAC_CTL |= CRYPTO_HMAC_CTL_HMACEN_Msk;
     }
 }
 

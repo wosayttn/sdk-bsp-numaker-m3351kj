@@ -1135,10 +1135,6 @@ void nutool_modclkcfg_init(void)
 #if defined(BSP_USING_SPI1) || defined(BSP_USING_SPII2S1)
     nutool_modclkcfg_init_spi1();
 #endif
-#if defined(BSP_USING_SPI2) || defined(BSP_USING_SPII2S2)
-    nutool_modclkcfg_init_spi2();
-#endif
-
     /* 10. UART */
 #if defined(BSP_USING_UART0)
     nutool_modclkcfg_init_uart0();
@@ -1382,9 +1378,6 @@ void nutool_modclkcfg_deinit(void)
 #endif
 #if defined(BSP_USING_SPI1) || defined(BSP_USING_SPII2S1)
     nutool_modclkcfg_deinit_spi1();
-#endif
-#if defined(BSP_USING_SPI2) || defined(BSP_USING_SPII2S2)
-    nutool_modclkcfg_deinit_spi2();
 #endif
 
     /* 11. UART */

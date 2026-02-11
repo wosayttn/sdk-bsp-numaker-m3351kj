@@ -168,9 +168,9 @@ int32_t RNG_EntropyPoll(uint32_t *pu32Out, int32_t i32Len)
     int32_t timeout;
     int32_t i;
 
-    if ((TRNG->CTL & TRNG_STS_TRNGRDY_Msk) == 0)
+    if ((TRNG->STS & TRNG_STS_TRNGRDY_Msk) == 0)
     {
-        /* TRNG is not in active */
+        /* TRNG is not ready */
         return -1;
     }
 

@@ -356,7 +356,7 @@ void FMC_NSCBA_Setup(void)
             ;
 
         u32Config14 = FMC->ISPDAT;
-        printf("CONFIG14 0x%08X\n", u32Config14);
+        //printf("CONFIG14 0x%08X\n", u32Config14);
 
         if ((u32Config14 & 0x0000006F) == ((DFMC_SECURE_EEPROM << 6) | ((!DFMC_ENABLE_EEPROM) << 5) | u32NSCBAConfig))
             return ;
@@ -421,258 +421,439 @@ void SCU_Setup(void)
     /* Set Secure/Non-secure SRAM region */
     switch (SCU_SECURE_SRAM_SIZE)
     {
-    case     0x0:
-        SCU->SRAMNSSET = 0xFFFFF;
-        break;
+        case     0x0:
+            SCU->SRAMNSSET = 0xFFFFF;
+            break;
 
-    case  0x2000:
-        SCU->SRAMNSSET = 0xFFFFE;
-        break;
+        case  0x2000:
+            SCU->SRAMNSSET = 0xFFFFE;
+            break;
 
-    case  0x4000:
-        SCU->SRAMNSSET = 0xFFFFC;
-        break;
+        case  0x4000:
+            SCU->SRAMNSSET = 0xFFFFC;
+            break;
 
-    case  0x6000:
-        SCU->SRAMNSSET = 0xFFFF8;
-        break;
+        case  0x6000:
+            SCU->SRAMNSSET = 0xFFFF8;
+            break;
 
-    case  0x8000:
-        SCU->SRAMNSSET = 0xFFFF0;
-        break;
+        case  0x8000:
+            SCU->SRAMNSSET = 0xFFFF0;
+            break;
 
-    case  0xA000:
-        SCU->SRAMNSSET = 0xFFFE0;
-        break;
+        case  0xA000:
+            SCU->SRAMNSSET = 0xFFFE0;
+            break;
 
-    case  0xC000:
-        SCU->SRAMNSSET = 0xFFFC0;
-        break;
+        case  0xC000:
+            SCU->SRAMNSSET = 0xFFFC0;
+            break;
 
-    case  0xE000:
-        SCU->SRAMNSSET = 0xFFF80;
-        break;
+        case  0xE000:
+            SCU->SRAMNSSET = 0xFFF80;
+            break;
 
-    case 0x10000:
-        SCU->SRAMNSSET = 0xFFF00;
-        break;
+        case 0x10000:
+            SCU->SRAMNSSET = 0xFFF00;
+            break;
 
-    case 0x12000:
-        SCU->SRAMNSSET = 0xFFE00;
-        break;
+        case 0x12000:
+            SCU->SRAMNSSET = 0xFFE00;
+            break;
 
-    case 0x14000:
-        SCU->SRAMNSSET = 0xFFC00;
-        break;
+        case 0x14000:
+            SCU->SRAMNSSET = 0xFFC00;
+            break;
 
-    case 0x16000:
-        SCU->SRAMNSSET = 0xFF800;
-        break;
+        case 0x16000:
+            SCU->SRAMNSSET = 0xFF800;
+            break;
 
-    case 0x18000:
-        SCU->SRAMNSSET = 0xFF000;
-        break;
+        case 0x18000:
+            SCU->SRAMNSSET = 0xFF000;
+            break;
 
-    case 0x1A000:
-        SCU->SRAMNSSET = 0xFE000;
-        break;
+        case 0x1A000:
+            SCU->SRAMNSSET = 0xFE000;
+            break;
 
-    case 0x1C000:
-        SCU->SRAMNSSET = 0xFC000;
-        break;
+        case 0x1C000:
+            SCU->SRAMNSSET = 0xFC000;
+            break;
 
-    case 0x1E000:
-        SCU->SRAMNSSET = 0xF8000;
-        break;
+        case 0x1E000:
+            SCU->SRAMNSSET = 0xF8000;
+            break;
 
-    case 0x20000:
-        SCU->SRAMNSSET = 0xF0000;
-        break;
+        case 0x20000:
+            SCU->SRAMNSSET = 0xF0000;
+            break;
 
-    case 0x22000:
-        SCU->SRAMNSSET = 0xE0000;
-        break;
+        case 0x22000:
+            SCU->SRAMNSSET = 0xE0000;
+            break;
 
-    case 0x24000:
-        SCU->SRAMNSSET = 0xC0000;
-        break;
+        case 0x24000:
+            SCU->SRAMNSSET = 0xC0000;
+            break;
 
-    case 0x26000:
-        SCU->SRAMNSSET = 0x80000;
-        break;
+        case 0x26000:
+            SCU->SRAMNSSET = 0x80000;
+            break;
 
-    case 0x28000:
-        SCU->SRAMNSSET = 0x00000;
-        break;
+        case 0x28000:
+            SCU->SRAMNSSET = 0x00000;
+            break;
 
-    default:
-        SCU->SRAMNSSET = 0x00000;
-        break;
+        default:
+            SCU->SRAMNSSET = 0x00000;
+            break;
     }
 
-    /* Set interrupt to Non-secure according to DxPNSy settings */
-    /* Set interrupt to non-secure according to PNNSET settings */
-    if (SCU_INIT_PNSSET0_VAL & BIT8)  NVIC_ITNS_CONF(PDMA0_IRQn);   /* Int of PDMA0_INT    */
-
-    if (SCU_INIT_PNSSET0_VAL & BIT9)  NVIC_ITNS_CONF(USBH_IRQn);    /* Int of USBH_INT     */
-
-    if (SCU_INIT_PNSSET1_VAL & BIT0)
+    /* Set interrupt to Non-secure according to PNSSETx settings */
+    if (SCU_INIT_PNSSET0_VAL & SCU_PNSSET0_PDMA0_Msk)
     {
-        NVIC_ITNS_CONF(CANFD00_IRQn);  /* Int of CANFD0_INT0  */
-        NVIC_ITNS_CONF(CANFD01_IRQn);  /* Int of CANFD0_INT1  */
+        NVIC_ITNS_CONF(PDMA0_IRQn);     /* Int of PDMA0_INT         */
     }
 
-    if (SCU_INIT_PNSSET1_VAL & BIT4)
+    if (SCU_INIT_PNSSET0_VAL & SCU_PNSSET0_USBH_Msk)
     {
-        NVIC_ITNS_CONF(CANFD10_IRQn);  /* Int of CANFD1_INT0  */
-        NVIC_ITNS_CONF(CANFD11_IRQn);  /* Int of CANFD1_INT1  */
+        NVIC_ITNS_CONF(USBH_IRQn);      /* Int of USBH_INT          */
     }
 
-    if (SCU_INIT_PNSSET1_VAL & BIT17) NVIC_ITNS_CONF(CRC_IRQn);     /* Int of CRC_INT      */
-
-    if (SCU_INIT_PNSSET2_VAL & BIT1)  NVIC_ITNS_CONF(RTC_IRQn);     /* Int of RTC_INT      */
-
-    if (SCU_INIT_PNSSET2_VAL & BIT2)  NVIC_ITNS_CONF(WDT1_IRQn);    /* Int of WDT1_INT     */
-
-    if (SCU_INIT_PNSSET2_VAL & BIT3)
+    if (SCU_INIT_PNSSET0_VAL & SCU_PNSSET0_EBI_Msk)
     {
-        NVIC_ITNS_CONF(EADC00_IRQn);    /* Int of EADC0_INT0   */
-        NVIC_ITNS_CONF(EADC01_IRQn);    /* Int of EADC0_INT1   */
-        NVIC_ITNS_CONF(EADC02_IRQn);    /* Int of EADC0_INT2   */
-        NVIC_ITNS_CONF(EADC03_IRQn);    /* Int of EADC0_INT3   */
+        /* EBI does not have IRQ */
     }
 
-    if (SCU_INIT_PNSSET2_VAL & BIT5)  NVIC_ITNS_CONF(ACMP01_IRQn);  /* Int of ACMP01_INT   */
-
-    if (SCU_INIT_PNSSET2_VAL & BIT16)
+    if (SCU_INIT_PNSSET1_VAL & SCU_PNSSET1_CANFD0_Msk)
     {
-        NVIC_ITNS_CONF(TIMER0_IRQn);      /* Int of TMR0_INT     */
-        NVIC_ITNS_CONF(TIMER1_IRQn);      /* Int of TMR1_INT     */
+        NVIC_ITNS_CONF(CANFD00_IRQn);   /* Int of CANFD0_INT0       */
+        NVIC_ITNS_CONF(CANFD01_IRQn);   /* Int of CANFD0_INT1       */
     }
 
-    if (SCU_INIT_PNSSET2_VAL & BIT17)
+    if (SCU_INIT_PNSSET1_VAL & SCU_PNSSET1_CANFD1_Msk)
     {
-        NVIC_ITNS_CONF(TIMER2_IRQn);      /* Int of TMR2_INT     */
-        NVIC_ITNS_CONF(TIMER3_IRQn);      /* Int of TMR3_INT     */
+        NVIC_ITNS_CONF(CANFD10_IRQn);   /* Int of CANFD1_INT0       */
+        NVIC_ITNS_CONF(CANFD11_IRQn);   /* Int of CANFD1_INT1       */
     }
 
-    if (SCU_INIT_PNSSET2_VAL & BIT24)
+    if (SCU_INIT_PNSSET1_VAL & SCU_PNSSET1_CRC_Msk)
     {
-        NVIC_ITNS_CONF(BRAKE0_IRQn);    /* Int of BREAK0_INT   */
-        NVIC_ITNS_CONF(PWM0P0_IRQn);   /* Int of EPWM0_P0_INT */
-        NVIC_ITNS_CONF(PWM0P1_IRQn);   /* Int of EPWM0_P1_INT */
-        NVIC_ITNS_CONF(PWM0P2_IRQn);   /* Int of EPWM0_P2_INT */
+        NVIC_ITNS_CONF(CRC_IRQn);       /* Int of CRC_INT           */
     }
 
-    if (SCU_INIT_PNSSET2_VAL & BIT25)
+    if (SCU_INIT_PNSSET1_VAL & SCU_PNSSET1_CACHE_Msk)
     {
-        NVIC_ITNS_CONF(BRAKE1_IRQn);    /* Int of BREAK1_INT   */
-        NVIC_ITNS_CONF(PWM1P0_IRQn);   /* Int of EPWM1_P0_INT */
-        NVIC_ITNS_CONF(PWM1P1_IRQn);   /* Int of EPWM1_P1_INT */
-        NVIC_ITNS_CONF(PWM1P2_IRQn);   /* Int of EPWM1_P2_INT */
+        NVIC_ITNS_CONF(CACHE_IRQn);     /* Int of CACHE_INT         */
     }
 
-    if (SCU_INIT_PNSSET2_VAL & BIT26) NVIC_ITNS_CONF(BPWM0_IRQn);   /* Int of BPWM0_INT    */
-
-    if (SCU_INIT_PNSSET2_VAL & BIT27) NVIC_ITNS_CONF(BPWM1_IRQn);   /* Int of BPWM1_INT    */
-
-    //    if(SCU_INIT_PNSSET2_VAL & BIT28) NVIC_ITNS_CONF(PWM0_IRQn);     /* Int of PWM0_INT     */
-    //    if(SCU_INIT_PNSSET2_VAL & BIT29) NVIC_ITNS_CONF(PWM1_IRQn);     /* Int of PWM1_INT     */
-    if (SCU_INIT_PNSSET3_VAL & BIT0)  NVIC_ITNS_CONF(QSPI0_IRQn);   /* Int of QSPI0_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT1)  NVIC_ITNS_CONF(SPI0_IRQn);    /* Int of SPI0_INT     */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT2)  NVIC_ITNS_CONF(SPI1_IRQn);    /* Int of SPI1_INT     */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT16) NVIC_ITNS_CONF(UART0_IRQn);   /* Int of UART0_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT17) NVIC_ITNS_CONF(UART1_IRQn);   /* Int of UART1_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT18) NVIC_ITNS_CONF(UART2_IRQn);   /* Int of UART2_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT19) NVIC_ITNS_CONF(UART3_IRQn);   /* Int of UART3_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART4_IRQn);   /* Int of UART4_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART5_IRQn);   /* Int of UART5_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART6_IRQn);   /* Int of UART6_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART7_IRQn);   /* Int of UART7_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART8_IRQn);   /* Int of UART8_INT    */
-
-    if (SCU_INIT_PNSSET3_VAL & BIT20) NVIC_ITNS_CONF(UART9_IRQn);   /* Int of UART9_INT    */
-
-    if (SCU_INIT_PNSSET4_VAL & BIT0)  NVIC_ITNS_CONF(I2C0_IRQn);    /* Int of I2C0_INT     */
-
-    if (SCU_INIT_PNSSET4_VAL & BIT1)  NVIC_ITNS_CONF(I2C1_IRQn);    /* Int of I2C1_INT     */
-
-    if (SCU_INIT_PNSSET4_VAL & BIT2)  NVIC_ITNS_CONF(I2C2_IRQn);    /* Int of I2C2_INT     */
-
-    if (SCU_INIT_PNSSET4_VAL & BIT6)  NVIC_ITNS_CONF(I3C0_IRQn);    /* Int of I3C0_INT     */
-
-    if (SCU_INIT_PNSSET4_VAL & BIT8)
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_RTC_Msk)
     {
-        NVIC_ITNS_CONF(LLSI0_IRQn);     /* Int of LLSI0_INT    */
-        NVIC_ITNS_CONF(LLSI2_IRQn);     /* Int of LLSI2_INT    */
-        NVIC_ITNS_CONF(LLSI4_IRQn);     /* Int of LLSI4_INT    */
-        NVIC_ITNS_CONF(LLSI6_IRQn);     /* Int of LLSI5_INT    */
-        NVIC_ITNS_CONF(LLSI8_IRQn);     /* Int of LLSI6_INT    */
+        NVIC_ITNS_CONF(RTC_IRQn);       /* Int of RTC_INT           */
     }
 
-    if (SCU_INIT_PNSSET4_VAL & BIT9)
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_WDT1_Msk)
     {
-        NVIC_ITNS_CONF(LLSI1_IRQn);     /* Int of LLSI1_INT    */
-        NVIC_ITNS_CONF(LLSI3_IRQn);     /* Int of LLSI3_INT    */
-        NVIC_ITNS_CONF(LLSI5_IRQn);     /* Int of LLSI5_INT    */
-        NVIC_ITNS_CONF(LLSI7_IRQn);     /* Int of LLSI7_INT    */
-        NVIC_ITNS_CONF(LLSI9_IRQn);     /* Int of LLSI9_INT    */
+        NVIC_ITNS_CONF(WDT1_IRQn);      /* Int of WDT1_INT          */
     }
 
-    if (SCU_INIT_PNSSET4_VAL & BIT10) NVIC_ITNS_CONF(ELLSI0_IRQn);  /* Int of ELLSI0_INT   */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_EADC0_Msk)
+    {
+        NVIC_ITNS_CONF(EADC00_IRQn);    /* Int of EADC0_INT0        */
+        NVIC_ITNS_CONF(EADC01_IRQn);    /* Int of EADC0_INT1        */
+        NVIC_ITNS_CONF(EADC02_IRQn);    /* Int of EADC0_INT2        */
+        NVIC_ITNS_CONF(EADC03_IRQn);    /* Int of EADC0_INT3        */
+    }
 
-    if (SCU_INIT_PNSSET4_VAL & BIT24) NVIC_ITNS_CONF(WWDT1_IRQn);   /* Int of WWDT1_INT    */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_ACMP01_Msk)
+    {
+        NVIC_ITNS_CONF(ACMP01_IRQn);    /* Int of ACMP01_INT        */
+    }
 
-    if (SCU_INIT_PNSSET5_VAL & BIT16) NVIC_ITNS_CONF(EQEI0_IRQn);   /* Int of EQEI0_INT    */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_DAC_Msk)
+    {
+        NVIC_ITNS_CONF(DAC0_IRQn);      /* Int of DAC0_INT          */
+    }
 
-    if (SCU_INIT_PNSSET5_VAL & BIT20) NVIC_ITNS_CONF(ECAP0_IRQn);   /* Int of ECAP0_INT    */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_EADC1_Msk)
+    {
+        NVIC_ITNS_CONF(EADC10_IRQn);    /* Int of EADC1_INT0        */
+        NVIC_ITNS_CONF(EADC11_IRQn);    /* Int of EADC1_INT1        */
+        NVIC_ITNS_CONF(EADC12_IRQn);    /* Int of EADC1_INT2        */
+        NVIC_ITNS_CONF(EADC13_IRQn);    /* Int of EADC1_INT3        */
+    }
 
-    if (SCU_INIT_PNSSET6_VAL & BIT16) NVIC_ITNS_CONF(USCI0_IRQn);   /* Int of USCI0_INT    */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_TIMER01_Msk)
+    {
+        NVIC_ITNS_CONF(TIMER0_IRQn);    /* Int of TMR0_INT          */
+        NVIC_ITNS_CONF(TIMER1_IRQn);    /* Int of TMR1_INT          */
+    }
 
-    if (SCU_INIT_PNSSET6_VAL & BIT17) NVIC_ITNS_CONF(USCI1_IRQn);   /* Int of USCI1_INT    */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_TIMER23_Msk)
+    {
+        NVIC_ITNS_CONF(TIMER2_IRQn);    /* Int of TMR2_INT          */
+        NVIC_ITNS_CONF(TIMER3_IRQn);    /* Int of TMR3_INT          */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT0)  NVIC_ITNS_CONF(GPA_IRQn);     /* Int of PA           */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_BPWM0_Msk)
+    {
+        NVIC_ITNS_CONF(BPWM0_IRQn);     /* Int of BPWM0_INT         */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT1)  NVIC_ITNS_CONF(GPB_IRQn);     /* Int of PB           */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_BPWM1_Msk)
+    {
+        NVIC_ITNS_CONF(BPWM1_IRQn);     /* Int of BPWM1_INT         */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT2)  NVIC_ITNS_CONF(GPC_IRQn);     /* Int of PC           */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_PWM0_Msk)
+    {
+        NVIC_ITNS_CONF(BRAKE0_IRQn);    /* Int of BREAK0_INT        */
+        NVIC_ITNS_CONF(PWM0P0_IRQn);    /* Int of EPWM0_P0_INT      */
+        NVIC_ITNS_CONF(PWM0P1_IRQn);    /* Int of EPWM0_P1_INT      */
+        NVIC_ITNS_CONF(PWM0P2_IRQn);    /* Int of EPWM0_P2_INT      */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT3)  NVIC_ITNS_CONF(GPD_IRQn);     /* Int of PD           */
+    if (SCU_INIT_PNSSET2_VAL & SCU_PNSSET2_PWM1_Msk)
+    {
+        NVIC_ITNS_CONF(BRAKE1_IRQn);    /* Int of BREAK1_INT        */
+        NVIC_ITNS_CONF(PWM1P0_IRQn);    /* Int of EPWM1_P0_INT      */
+        NVIC_ITNS_CONF(PWM1P1_IRQn);    /* Int of EPWM1_P1_INT      */
+        NVIC_ITNS_CONF(PWM1P2_IRQn);    /* Int of EPWM1_P2_INT      */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT4)  NVIC_ITNS_CONF(GPE_IRQn);     /* Int of PE           */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_QSPI0_Msk)
+    {
+        NVIC_ITNS_CONF(QSPI0_IRQn);     /* Int of QSPI0_INT         */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT5)  NVIC_ITNS_CONF(GPF_IRQn);     /* Int of PF           */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_SPI0_Msk)
+    {
+        NVIC_ITNS_CONF(SPI0_IRQn);      /* Int of SPI0_INT          */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT6)  NVIC_ITNS_CONF(GPG_IRQn);     /* Int of PG           */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_SPI1_Msk)
+    {
+        NVIC_ITNS_CONF(SPI1_IRQn);      /* Int of SPI1_INT          */
+    }
 
-    if (SCU_INIT_IONSSET_VAL & BIT7)  NVIC_ITNS_CONF(GPH_IRQn);     /* Int of PH           */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART0_Msk)
+    {
+        NVIC_ITNS_CONF(UART0_IRQn);     /* Int of UART0_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT0)   NVIC_ITNS_CONF(EINT0_IRQn);   /* Int of EINT0        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART1_Msk)
+    {
+        NVIC_ITNS_CONF(UART1_IRQn);     /* Int of UART1_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT1)   NVIC_ITNS_CONF(EINT1_IRQn);   /* Int of EINT1        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART2_Msk)
+    {
+        NVIC_ITNS_CONF(UART2_IRQn);     /* Int of UART2_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT2)   NVIC_ITNS_CONF(EINT2_IRQn);   /* Int of EINT2        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART3_Msk)
+    {
+        NVIC_ITNS_CONF(UART3_IRQn);     /* Int of UART3_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT3)   NVIC_ITNS_CONF(EINT3_IRQn);   /* Int of EINT3        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART4_Msk)
+    {
+        NVIC_ITNS_CONF(UART4_IRQn);     /* Int of UART4_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT4)   NVIC_ITNS_CONF(EINT4_IRQn);   /* Int of EINT4        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART5_Msk)
+    {
+        NVIC_ITNS_CONF(UART5_IRQn);     /* Int of UART5_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT5)   NVIC_ITNS_CONF(EINT5_IRQn);   /* Int of EINT5        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART6_Msk)
+    {
+        NVIC_ITNS_CONF(UART6_IRQn);     /* Int of UART6_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT6)   NVIC_ITNS_CONF(EINT6_IRQn);   /* Int of EINT6        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART7_Msk)
+    {
+        NVIC_ITNS_CONF(UART7_IRQn);     /* Int of UART7_INT         */
+    }
 
-    if (SCU_INIT_EINTNS_VAL & BIT7)   NVIC_ITNS_CONF(EINT7_IRQn);   /* Int of EINT7        */
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART8_Msk)
+    {
+        NVIC_ITNS_CONF(UART8_IRQn);     /* Int of UART8_INT         */
+    }
+
+    if (SCU_INIT_PNSSET3_VAL & SCU_PNSSET3_UART9_Msk)
+    {
+        NVIC_ITNS_CONF(UART9_IRQn);     /* Int of UART9_INT         */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_I2C0_Msk)
+    {
+        NVIC_ITNS_CONF(I2C0_IRQn);      /* Int of I2C0_INT          */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_I2C1_Msk)
+    {
+        NVIC_ITNS_CONF(I2C1_IRQn);      /* Int of I2C1_INT          */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_I2C2_Msk)
+    {
+        NVIC_ITNS_CONF(I2C2_IRQn);      /* Int of I2C2_INT          */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_I3C0_Msk)
+    {
+        NVIC_ITNS_CONF(I3C0_IRQn);      /* Int of I3C0_INT          */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_LLSI0_Msk)
+    {
+        NVIC_ITNS_CONF(LLSI0_IRQn);     /* Int of LLSI0_INT         */
+        NVIC_ITNS_CONF(LLSI2_IRQn);     /* Int of LLSI2_INT         */
+        NVIC_ITNS_CONF(LLSI4_IRQn);     /* Int of LLSI4_INT         */
+        NVIC_ITNS_CONF(LLSI6_IRQn);     /* Int of LLSI5_INT         */
+        NVIC_ITNS_CONF(LLSI8_IRQn);     /* Int of LLSI6_INT         */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_LLSI1_Msk)
+    {
+        NVIC_ITNS_CONF(LLSI1_IRQn);     /* Int of LLSI1_INT         */
+        NVIC_ITNS_CONF(LLSI3_IRQn);     /* Int of LLSI3_INT         */
+        NVIC_ITNS_CONF(LLSI5_IRQn);     /* Int of LLSI5_INT         */
+        NVIC_ITNS_CONF(LLSI7_IRQn);     /* Int of LLSI7_INT         */
+        NVIC_ITNS_CONF(LLSI9_IRQn);     /* Int of LLSI9_INT         */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_ELLSI0_Msk)
+    {
+        NVIC_ITNS_CONF(ELLSI0_IRQn);    /* Int of ELLSI0_INT        */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_ELLSI1_Msk)
+    {
+        NVIC_ITNS_CONF(ELLSI1_IRQn);    /* Int of ELLSI1_INT        */
+    }
+
+    if (SCU_INIT_PNSSET4_VAL & SCU_PNSSET4_WWDT1_Msk)
+    {
+        NVIC_ITNS_CONF(WWDT1_IRQn);     /* Int of WWDT1_INT         */
+    }
+
+    if (SCU_INIT_PNSSET5_VAL & SCU_PNSSET5_EQEI0_Msk)
+    {
+        NVIC_ITNS_CONF(EQEI0_IRQn);     /* Int of EQEI0_INT         */
+    }
+
+    if (SCU_INIT_PNSSET5_VAL & SCU_PNSSET5_EQEI1_Msk)
+    {
+        NVIC_ITNS_CONF(EQEI1_IRQn);     /* Int of EQEI1_INT         */
+    }
+
+    if (SCU_INIT_PNSSET5_VAL & SCU_PNSSET5_ECAP0_Msk)
+    {
+        NVIC_ITNS_CONF(ECAP0_IRQn);     /* Int of ECAP0_INT         */
+    }
+
+    if (SCU_INIT_PNSSET5_VAL & SCU_PNSSET5_TRNG_Msk)
+    {
+        NVIC_ITNS_CONF(TRNG_IRQn);      /* Int of TRNG_INT          */
+    }
+
+    if (SCU_INIT_PNSSET5_VAL & SCU_PNSSET6_USBD_Msk)
+    {
+        NVIC_ITNS_CONF(USBD_IRQn);      /* Int of USBD_INT          */
+    }
+
+    if (SCU_INIT_PNSSET6_VAL & SCU_PNSSET6_USCI0_Msk)
+    {
+        NVIC_ITNS_CONF(USCI0_IRQn);     /* Int of USCI0_INT         */
+    }
+
+    if (SCU_INIT_PNSSET6_VAL & SCU_PNSSET6_USCI1_Msk)
+    {
+        NVIC_ITNS_CONF(USCI1_IRQn);     /* Int of USCI1_INT         */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT0)
+    {
+        NVIC_ITNS_CONF(GPA_IRQn);       /* Int of PA                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT1)
+    {
+        NVIC_ITNS_CONF(GPB_IRQn);       /* Int of PB                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT2)
+    {
+        NVIC_ITNS_CONF(GPC_IRQn);       /* Int of PC                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT3)
+    {
+        NVIC_ITNS_CONF(GPD_IRQn);       /* Int of PD                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT4)
+    {
+        NVIC_ITNS_CONF(GPE_IRQn);       /* Int of PE                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT5)
+    {
+        NVIC_ITNS_CONF(GPF_IRQn);       /* Int of PF                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT6)
+    {
+        NVIC_ITNS_CONF(GPG_IRQn);       /* Int of PG                */
+    }
+
+    if (SCU_INIT_IONSSET_VAL & BIT7)
+    {
+        NVIC_ITNS_CONF(GPH_IRQn);       /* Int of PH                */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT0)
+    {
+        NVIC_ITNS_CONF(EINT0_IRQn);     /* Int of EINT0             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT1)
+    {
+        NVIC_ITNS_CONF(EINT1_IRQn);     /* Int of EINT1             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT2)
+    {
+        NVIC_ITNS_CONF(EINT2_IRQn);     /* Int of EINT2             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT3)
+    {
+        NVIC_ITNS_CONF(EINT3_IRQn);     /* Int of EINT3             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT4)
+    {
+        NVIC_ITNS_CONF(EINT4_IRQn);     /* Int of EINT4             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT5)
+    {
+        NVIC_ITNS_CONF(EINT5_IRQn);     /* Int of EINT5             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT6)
+    {
+        NVIC_ITNS_CONF(EINT6_IRQn);     /* Int of EINT6             */
+    }
+
+    if (SCU_INIT_EINTNS_VAL & BIT7)
+    {
+        NVIC_ITNS_CONF(EINT7_IRQn);     /* Int of EINT7             */
+    }
 
     /* Enable SCU Int status */
     SCU->SVIEN = (uint32_t)(-1);

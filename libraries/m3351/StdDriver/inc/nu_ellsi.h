@@ -398,8 +398,8 @@ typedef struct
 /**
   * @brief      Get the Feedback command done flag.
   * @param[in]  ellsi The pointer of the specified ELLSI module.
-  * @retval     0 The Feedback command is not done.
-  * @retval     1 The Feedback command is done.
+  * @return     0 The Feedback command is not done.
+  * @return     1 The Feedback command is done.
   * @details    This macro will return the Feedback command done flag of ELLSI controller.
   */
 #define ELLSI_FEEDBACK_CMD_IS_DONE(ellsi)   (((ellsi)->CMDSTS & ELLSI_CMDSTS_FBDONE_Msk) >> ELLSI_CMDSTS_FBDONE_Pos)

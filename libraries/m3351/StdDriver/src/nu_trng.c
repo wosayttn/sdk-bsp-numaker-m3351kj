@@ -36,7 +36,7 @@
   */
 int32_t TRNG_Open(void)
 {
-    volatile int i;
+    int i;
     SYS_ResetModule(TRNG_RST);
 
     TRNG->CTL |= TRNG_CTL_LDOEN_Msk;

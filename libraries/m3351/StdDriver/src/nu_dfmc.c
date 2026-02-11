@@ -23,7 +23,7 @@
 */
 
 //#define CHCKE_EE_INIT_STATUS
-//#define CHECK_PAGE_FULL_PROC
+//#define CHCKE_PAGE_FULL_PROC
 
 int32_t g_DFMC_i32ErrCode = DFMC_OK;    /*!< DFMC global error code */
 /* MISRA Rule 8.9 Deviation: static buffer due to limited stack size */
@@ -486,8 +486,7 @@ uint32_t  DFMC_CheckAllOne(uint32_t u32Addr, uint32_t u32Count)
             {
                 g_DFMC_i32ErrCode = DFMC_ERR_TIMEOUT;
             }
-        }
-        while ((DFMC->ISPDAT == 0UL) && (g_DFMC_i32ErrCode == DFMC_OK));
+        } while ((DFMC->ISPDAT == 0UL) && (g_DFMC_i32ErrCode == DFMC_OK));
     }
 
     if (g_DFMC_i32ErrCode == DFMC_OK)
@@ -581,7 +580,7 @@ uint32_t DFMC_EEPROM_Read(uint32_t u32Addr)
 
     g_DFMC_i32ErrCode = DFMC_OK;
 
-#if defined (CHECK_PAGE_FULL_PROC) && (CHECK_PAGE_FULL_PROC == 1)
+#if defined (CHCKE_PAGE_FULL_PROC) && (CHCKE_PAGE_FULL_PROC == 1)
     i32TimeOutCnt = DFMC_TIMEOUT_ERASE;
 
     while (DFMC->ISPSTS & DFMC_ISPSTS_EEP_PGFULL_Msk)
@@ -596,7 +595,7 @@ uint32_t DFMC_EEPROM_Read(uint32_t u32Addr)
 #endif
 
     DFMC->ISPCMD  = DFMC_ISPCMD_EEPROM_READ;
-    DFMC->ISPADDR = u32Addr & ~0x3;
+    DFMC->ISPADDR = u32Addr;
     DFMC->ISPTRG  = DFMC_ISPTRG_ISPGO_Msk;
 
     i32TimeOutCnt = DFMC_TIMEOUT_EEPROM_INIT;
@@ -661,7 +660,7 @@ int32_t DFMC_EEPROM_WriteByte(uint32_t u32Addr, uint8_t u8Data)
 
     g_DFMC_i32ErrCode = DFMC_OK;
 
-#if defined (CHECK_PAGE_FULL_PROC) && (CHECK_PAGE_FULL_PROC == 1)
+#if defined (CHCKE_PAGE_FULL_PROC) && (CHCKE_PAGE_FULL_PROC == 1)
     i32TimeOutCnt = DFMC_TIMEOUT_ERASE;
 
     while (DFMC->ISPSTS & DFMC_ISPSTS_EEP_PGFULL_Msk)
@@ -718,7 +717,7 @@ int32_t DFMC_EEPROM_Write(uint32_t u32Addr, uint32_t u32Data)
 
     g_DFMC_i32ErrCode = DFMC_OK;
 
-#if defined (CHECK_PAGE_FULL_PROC) && (CHECK_PAGE_FULL_PROC == 1)
+#if defined (CHCKE_PAGE_FULL_PROC) && (CHCKE_PAGE_FULL_PROC == 1)
     i32TimeOutCnt = DFMC_TIMEOUT_ERASE;
 
     while (DFMC->ISPSTS & DFMC_ISPSTS_EEP_PGFULL_Msk)
@@ -733,7 +732,7 @@ int32_t DFMC_EEPROM_Write(uint32_t u32Addr, uint32_t u32Data)
 #endif
 
     DFMC->ISPCMD  = DFMC_ISPCMD_EEPROM_WRITE_WORD;
-    DFMC->ISPADDR = u32Addr & ~0x3;
+    DFMC->ISPADDR = u32Addr;
     DFMC->ISPDAT  = u32Data;
     DFMC->ISPTRG  = DFMC_ISPTRG_ISPGO_Msk;
 

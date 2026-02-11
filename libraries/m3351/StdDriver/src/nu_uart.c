@@ -278,10 +278,10 @@ void UART_Open(UART_T *uart, uint32_t u32baudrate)
     /* Set UART Rx and RTS trigger level */
     uart->FIFO &= ~(UART_FIFO_RFITL_Msk | UART_FIFO_RTSTRGLV_Msk);
 
-    /* Get PLL/2 clock frequency if UART clock source selection is PLL/2 */
+    /* Get PLL clock frequency if UART clock source selection is PLL */
     if (u32UartClkSrcSel == 1UL)
     {
-        au32ClkTbl[1] = CLK_GetPLLClockFreq() >> 1;
+        au32ClkTbl[1] = CLK_GetPLLClockFreq();
     }
 
     /* Set UART baud rate */
@@ -578,10 +578,10 @@ void UART_SelectIrDAMode(UART_T *uart, uint32_t u32Buadrate, uint32_t u32Directi
             return;
     }
 
-    /* Get PLL/2 clock frequency if UART clock source selection is PLL/2 */
+    /* Get PLL clock frequency if UART clock source selection is PLL */
     if (u32UartClkSrcSel == 1UL)
     {
-        au32ClkTbl[1] = CLK_GetPLLClockFreq() >> 1;
+        au32ClkTbl[1] = CLK_GetPLLClockFreq();
     }
 
     /* Set UART IrDA baud rate in mode 0 */

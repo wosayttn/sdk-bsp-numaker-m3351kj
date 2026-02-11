@@ -792,15 +792,11 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[0]     |VREFEN    |VREF Enable Bit (Write Protect)
-     * |        |          |0 = Vref voltage Disabled.
-     * |        |          |1 = Vref voltage Enabled. User can measurement VREF through ADC channel 19.
-     * |[3:1]   |VREFRSEL  |VREF R Select Control Bits (Write Protect)
+     * |[2:0]   |VRECTL  |VREF Control Bits (Write Protect)
      * |        |          |000 = VREF is from external pin.
-     * |        |          |001 = VREF is internal 1.6V.
-     * |        |          |010 = VREF is internal 2.0V.
-     * |        |          |100 = VREF is internal 2.5V.
-     * |        |          |101 = VREF is internal 3.0V.
+     * |        |          |011 = VREF is internal 2.5V.
+     * |        |          |101 = VREF is internal 3.072V.
+     * |        |          |111 = VREF is internal 4.096V.
      * |        |          |Others = Reserved.
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
      * @var SYS_T::USBPHY
@@ -1975,11 +1971,6 @@ typedef struct
      * |        |          |0 = USBD SRAM BIST Disabled.
      * |        |          |1 = USBD SRAM BIST Enabled.
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
-     * |[10]    |SRBIST2   |System SRAM Bank2 BIST Enable Bit (Write Protect)
-     * |        |          |This bit enables BIST test for system SRAM bank2.
-     * |        |          |0 = System SRAM bank2 BIST Disabled.
-     * |        |          |1 = System SRAM bank2 BIST Enabled.
-     * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[12]    |I3CBIST   |I3C SRAM BIST Enable Bit (Write Protect)
      * |        |          |This bit enables BIST test for I3C SRAM.
      * |        |          |0 = I3C SRAM BIST Disabled.
@@ -2850,11 +2841,8 @@ typedef struct
 #define SYS_PORCTL_POROFF_Pos            (0)                                               /*!< SYS_T::PORCTL: POROFF Position         */
 #define SYS_PORCTL_POROFF_Msk            (0xfffful << SYS_PORCTL_POROFF_Pos)               /*!< SYS_T::PORCTL: POROFF Mask             */
 
-#define SYS_VREFCTL_VREFEN_Pos           (0)                                               /*!< SYS_T::VREFCTL: VREFEN Position        */
-#define SYS_VREFCTL_VREFEN_Msk           (0x1ul << SYS_VREFCTL_VREFEN_Pos)                 /*!< SYS_T::VREFCTL: VREFEN Mask            */
-
-#define SYS_VREFCTL_VREFRSEL_Pos         (1)                                               /*!< SYS_T::VREFCTL: VREFRSEL Position      */
-#define SYS_VREFCTL_VREFRSEL_Msk         (0x7ul << SYS_VREFCTL_VREFRSEL_Pos)               /*!< SYS_T::VREFCTL: VREFRSEL Mask          */
+#define SYS_VREFCTL_VREFCTL_Pos          (0)                                               /*!< SYS_T::VREFCTL: VREFCTL Position       */
+#define SYS_VREFCTL_VREFCTL_Msk          (0x7ul << SYS_VREFCTL_VREFCTL_Pos)                /*!< SYS_T::VREFCTL: VREFCTL Mask           */
 
 #define SYS_USBPHY_USBROLE_Pos           (0)                                               /*!< SYS_T::USBPHY: USBROLE Position        */
 #define SYS_USBPHY_USBROLE_Msk           (0x3ul << SYS_USBPHY_USBROLE_Pos)                 /*!< SYS_T::USBPHY: USBROLE Mask            */
@@ -3290,9 +3278,6 @@ typedef struct
 
 #define SYS_SRAM_BISTCTL_USBDBIST_Pos    (4)                                               /*!< SYS_T::SRAM_BISTCTL: USBDBIST Position */
 #define SYS_SRAM_BISTCTL_USBDBIST_Msk    (0x1ul << SYS_SRAM_BISTCTL_USBDBIST_Pos)          /*!< SYS_T::SRAM_BISTCTL: USBDBIST Mask     */
-
-#define SYS_SRAM_BISTCTL_SRBIST2_Pos     (10)                                              /*!< SYS_T::SRAM_BISTCTL: SRBIST2 Position  */
-#define SYS_SRAM_BISTCTL_SRBIST2_Msk     (0x1ul << SYS_SRAM_BISTCTL_SRBIST2_Pos)           /*!< SYS_T::SRAM_BISTCTL: SRBIST2 Mask      */
 
 #define SYS_SRAM_BISTCTL_I3CBIST_Pos     (12)                                              /*!< SYS_T::SRAM_BISTCTL: I3CBIST Position  */
 #define SYS_SRAM_BISTCTL_I3CBIST_Msk     (0x1ul << SYS_SRAM_BISTCTL_I3CBIST_Pos)           /*!< SYS_T::SRAM_BISTCTL: I3CBIST Mask      */

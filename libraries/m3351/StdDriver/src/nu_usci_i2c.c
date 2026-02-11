@@ -54,8 +54,7 @@ uint32_t UI2C_Open(UI2C_T *ui2c, uint32_t u32BusClock)
     /* Data format configuration */
     /* 8 bit data length */
     ui2c->LINECTL &= ~UI2C_LINECTL_DWIDTH_Msk;
-    ui2c->LINECTL |= (8U << UI2C_LINECTL_DWIDTH_Pos);
-
+    ui2c->LINECTL |= 8UL << UI2C_LINECTL_DWIDTH_Pos;
     /* MSB data format */
     ui2c->LINECTL &= ~UI2C_LINECTL_LSB_Msk;
     /* Set USCI_I2C bus clock */

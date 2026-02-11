@@ -68,8 +68,6 @@ uint32_t g_u32EpStallLock                = 0UL;            /*!< Bit map flag to 
   */
 void USBD_Open(const S_USBD_INFO_T *param, CLASS_REQ pfnClassReq, SET_INTERFACE_REQ pfnSetInterface)
 {
-    volatile int i;
-
     g_usbd_sInfo = param;
     g_usbd_pfnClassRequest = pfnClassReq;
     g_usbd_pfnSetInterface = pfnSetInterface;
@@ -83,9 +81,7 @@ void USBD_Open(const S_USBD_INFO_T *param, CLASS_REQ pfnClassReq, SET_INTERFACE_
 #else
     USBD->ATTR = 0x7D0UL;
 #endif
-
     CLK_SysTickDelay(1);
-
     /* Force SE0 */
     USBD_SET_SE0();
 }
@@ -685,7 +681,7 @@ void USBD_CtrlOut(void)
         u32Size = USBD_GET_PAYLOAD_LEN(EP1);
         addr = USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP1);
         USBD_MemCopy((uint8_t *)g_usbd_CtrlOutPointer, (uint8_t *)addr, u32Size);
-        g_usbd_CtrlInPointer = (uint8_t *)((uintptr_t)g_usbd_CtrlInPointer + u32Size);
+        g_usbd_CtrlOutPointer = (uint8_t *)((uintptr_t)g_usbd_CtrlOutPointer + u32Size);
         g_usbd_CtrlOutSize += u32Size;
 
         if (g_usbd_CtrlOutSize < u32CtrlOutSizeLimit)

@@ -233,6 +233,7 @@ void SYS_DisableBOD(void)
 /**
   * @brief      Set Reference Voltage
   * @param[in]  u32VRefCTL is reference voltage setting. Including :
+  *             - \ref SYS_VREFCTL_VREF_PIN
   *             - \ref SYS_VREFCTL_VREF_2_5V
   *             - \ref SYS_VREFCTL_VREF_3_0V
   *             - \ref SYS_VREFCTL_VREF_4_0V
@@ -243,7 +244,7 @@ void SYS_DisableBOD(void)
 void SYS_SetVRef(uint32_t u32VRefCTL)
 {
     /* Set reference voltage */
-    SYS->VREFCTL = (SYS->VREFCTL & (~SYS_VREFCTL_VREFRSEL_Msk)) | (u32VRefCTL);
+    SYS->VREFCTL = (SYS->VREFCTL & (~SYS_VREFCTL_VREFCTL_Msk)) | (u32VRefCTL);
 }
 
 /** @} end of group SYS_EXPORTED_FUNCTIONS */
