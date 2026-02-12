@@ -688,7 +688,11 @@ typedef struct
 #define FMC_ISPSTS_ALLONE_Pos            (7)                                               /*!< FMC_T::ISPSTS: ALLONE Position         */
 #define FMC_ISPSTS_ALLONE_Msk            (0x1UL << FMC_ISPSTS_ALLONE_Pos)                  /*!< FMC_T::ISPSTS: ALLONE Mask             */
 
-#define FMC_ISPSTS_INTFLAG_Pos           (8)                                               /*!< FMC_T::ISPSTS: INTFLAG Position        */
+#if !defined(NVT_CMSE_NON_SECURE)
+    #define FMC_ISPSTS_INTFLAG_Pos           (8)                                               /*!< FMC_T::ISPSTS: INTFLAG Position        */
+#else
+    #define FMC_ISPSTS_INTFLAG_Pos           (24)                                              /*!< FMC_T::ISPSTS: NS INTFLAG Position     */
+#endif
 #define FMC_ISPSTS_INTFLAG_Msk           (0x1UL << FMC_ISPSTS_INTFLAG_Pos)                 /*!< FMC_T::ISPSTS: INTFLAG Mask            */
 
 #define FMC_ISPSTS_VECMAP_Pos            (10)                                              /*!< FMC_T::ISPSTS: VECMAP Position         */

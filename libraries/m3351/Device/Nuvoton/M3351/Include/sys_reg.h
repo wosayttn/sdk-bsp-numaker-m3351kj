@@ -178,7 +178,7 @@ typedef struct
      * | :----: | :----:   | :---- |
      * |[7:0]   |NMIMSEL   |NMI Multiplexer Source Selection
      * |        |          |This bit field is to select NMI interrupt INTMUX from one of IRQ.
-     * |        |          |Note: Please refer to the Table 1.1-10.
+     * |        |          |Note: Please refer to Table 1.1-10.
      */
     __IO uint32_t NMIEN;                 /*!< [0x0000] NMI Source Interrupt Enable Register                             */
     __I  uint32_t NMISTS;                /*!< [0x0004] NMI Source Interrupt Status Register                             */
@@ -552,13 +552,11 @@ typedef struct
      * |        |          |User needs to set this bit to 0 to release from reset state.
      * |        |          |0 = WWDT0 controller normal operation.
      * |        |          |1 = WWDT0 controller reset.
-     * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[25]    |WWDT1RST  |WWDT1 Controller Reset
      * |        |          |Setting this bit to 1 will generate a reset signal to the WWDT1 controller
      * |        |          |User needs to set this bit to 0 to release from reset state.
      * |        |          |0 = WWDT1 controller normal operation.
      * |        |          |1 = WWDT1 controller reset.
-     * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[27]    |USBDRST   |USBD Controller Reset
      * |        |          |Setting this bit to 1 will generate a reset signal to the USBD controller
      * |        |          |User needs to set this bit to 0 to release from reset state.
@@ -711,7 +709,7 @@ typedef struct
      * |        |          |1 = Low Voltage Reset function ready.
      * |[19:16] |BODVL     |Brown-out Detector Threshold Voltage Selection (Write Protect)
      * |        |          |The default value is set by Flash controller user configuration register CBOV ({1u2019b1, CONFIG0 [23:21]}).
-     * |        |          |1010 = Brown-Out Detector threshold voltage is 2.7V.
+     * |        |          |1011 = Brown-Out Detector threshold voltage is 2.8V.
      * |        |          |1101 = Brown-Out Detector threshold voltage is 3.7V.
      * |        |          |1111 = Brown-Out Detector threshold voltage is 4.4V.
      * |        |          |Others = Reserved.
@@ -775,29 +773,23 @@ typedef struct
      * |[11]    |ELLSI1RST |ELLSI1 Controller Reset
      * |        |          |0 = ELLSI1 normal operation.
      * |        |          |1 = ELLSI1 reset.
-     * @var SYS_T::PORCTL
-     * Offset: 0x24  Power-On-reset Controller Register
-     * ---------------------------------------------------------------------------------------------------
-     * |Bits    |Field     |Descriptions
-     * | :----: | :----:   | :---- |
-     * |[15:0]  |POROFF    |Power-on Reset Enable Bit (Write Protect)
-     * |        |          |When powered on, the POR circuit generates a reset signal to reset the whole chip function, but noise on the power may cause the POR active again
-     * |        |          |User can disable internal POR circuit to avoid unpredictable noise to cause chip reset by writing 0x5AA5 to this field.
-     * |        |          |The POR function will be active again when this field is set to another value or chip is reset by other reset source, including:
-     * |        |          |nRESET, Watchdog, LVR reset, BOD reset, ICE reset command and the software-chip reset function.
-     * |        |          |Note 1: Need to disable LVR by setting LVREN(SYS_BODCTL[7]) to 0 when setting POROFF(SYS_PORCTL[15:0]) to 0x5AA5.
-     * |        |          |Note 2: These bits are write protected. Refer to the SYS_REGLCTL register.
      * @var SYS_T::VREFCTL
      * Offset: 0x28  VREF Control Register
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[2:0]   |VRECTL  |VREF Control Bits (Write Protect)
+     * |[2:0]   |VREFCTL   |VREF Control Bits (Write Protect)
      * |        |          |000 = VREF is from external pin.
      * |        |          |011 = VREF is internal 2.5V.
      * |        |          |101 = VREF is internal 3.072V.
      * |        |          |111 = VREF is internal 4.096V.
      * |        |          |Others = Reserved.
+     * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
+     * |[7:6]   |PRELOAD_SEL|VREF Preload Time Select (Write Protect)
+     * |        |          |00 = 60us (default).
+     * |        |          |01 = 966us.
+     * |        |          |10 = 2000us.
+     * |        |          |11 = 2.65ms.
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
      * @var SYS_T::USBPHY
      * Offset: 0x2C  USB PHY Control Register
@@ -1915,7 +1907,7 @@ typedef struct
      * |[31:0]  |ERRADDR   |System SRAM ECC Error Address (Read Only)
      * |        |          |This register shows system SRAM ECC error byte address
      * |        |          |(If ECC errors are detected in multiple SRAM banks, a single address will be randomly chosen for reporting)
-     * |        |          |*This function only works if ECCEN set to 1.
+     * |        |          |Note: This function only works if ECCEN set to 1.
      * @var SYS_T::SRAM_LSCTL
      * Offset: 0xCC  SRAM Light Sleep Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -2010,29 +2002,26 @@ typedef struct
      * |        |          |1 = EEPROM SRAM BIST test fail.
      * |[16]    |SRBEND0   |System SRAM Bank0 BIST Test Finish (Read Only)
      * |        |          |0 = System SRAM bank0 BIST active.
-     * |        |          |1 = System SRAM bank0 BIST finish.
+     * |        |          |1 = System SRAM bank0 BIST finished.
      * |[17]    |SRBEND1   |System SRAM Bnak1 BIST Test Finish (Read Only)
      * |        |          |0 = System SRAM bank1 BIST is active.
-     * |        |          |1 = System SRAM bank1 BIST finish.
+     * |        |          |1 = System SRAM bank1 BIST finished.
      * |[18]    |CACHEBEND |CACHE SRAM BIST Test Finish (Read Only)
      * |        |          |0 = CACHE SRAM BIST is active.
-     * |        |          |1 = CACHE SRAM BIST test finish.
+     * |        |          |1 = CACHE SRAM BIST test finished.
      * |[19]    |CANBEND   |CAN SRAM BIST Test Finish (Read Only)
      * |        |          |0 = CAN SRAM BIST is active.
-     * |        |          |1 = CAN SRAM BIST test finish.
-     * |        |          |Note: All of the CAN SRAM macros BIST finish, this flag is 1.
+     * |        |          |1 = CAN SRAM BIST test finished.
+     * |        |          |Note: All of the CAN SRAM macros BIST finished; this flag is 1.
      * |[20]    |USBDBEND  |USBD SRAM BIST Test Finish (Read Only)
      * |        |          |0 = USBD SRAM BIST is active.
-     * |        |          |1 = USBD SRAM BIST test finish.
-     * |[26]    |SRBEND2   |System SRAM Bnak2 BIST Test Finish (Read Only)
-     * |        |          |0 = System SRAM bank2 BIST is active.
-     * |        |          |1 = System SRAM bank2 BIST finish.
+     * |        |          |1 = USBD SRAM BIST test finished.
      * |[28]    |I3CBEND   |I3C SRAM BIST Test Finish (Read Only)
      * |        |          |0 = I3C SRAM BIST is active.
-     * |        |          |1 = I3C SRAM BIST test finish.
+     * |        |          |1 = I3C SRAM BIST test finished.
      * |[29]    |EEPROMBEND|EEPROM SRAM BIST Test Finish (Read Only)
      * |        |          |0 = EEPROM SRAM BIST is active.
-     * |        |          |1 = EEPROM SRAM BIST test finish.
+     * |        |          |1 = EEPROM SRAM BIST test finished.
      * @var SYS_T::SRAM_ECCEN
      * Offset: 0xDC  System SRAM ECC Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -2040,7 +2029,7 @@ typedef struct
      * | :----: | :----:   | :---- |
      * |[0]     |ECCEN     |SRAM ECC Function Enable
      * |        |          |0 = No System SRAM ECC function.
-     * |        |          |1 = System SRAM ECC error function
+     * |        |          |1 = System SRAM ECC error function.
      * |        |          |Note: When chip reset, default value comes from CONFIG0[29]
      * @var SYS_T::HIRCTCTL
      * Offset: 0xE4  HIRC48M Trim Control Register
@@ -2078,7 +2067,6 @@ typedef struct
      * |[10]    |REFCKSEL  |Reference Clock Selection
      * |        |          |0 = HIRC trim reference clock is from LXT (32.768 kHz).
      * |        |          |1 = HIRC trim reference clock is from internal USB synchronous mode.
-     * |        |          |Note: HIRC trim reference clock is 20 kHz in test mode.
      * |[20:16] |BOUNDARY  |Boundary Selection
      * |        |          |Fill the boundary range from 0x1 to 0x31, 0x0 is reserved.
      * |        |          |Note: This field is effective only when the BOUNDEN(SYS_HIRCTCTL[9]) is enabled.
@@ -2137,8 +2125,8 @@ typedef struct
      * |        |          |0 = SRAM ECC check error interrupt Disabled.
      * |        |          |1 = SRAM ECC check error interrupt Enabled.
      * |[1]     |ECCSINGLE |SRAM ECC Single Error check
-     * |        |          |0=The SRAM ECC logic non check single-bit error
-     * |        |          |1=The SRAM ECC logic checks for single-bit error
+     * |        |          |0=The SRAM ECC logic non check single-bit error.
+     * |        |          |1=The SRAM ECC logic checks for single-bit error.
      * @var SYS_T::SRAM_NSSTATUS
      * Offset: 0xF4  System SRAM Non-Secure ECC Status Register
      * ---------------------------------------------------------------------------------------------------
@@ -2148,7 +2136,7 @@ typedef struct
      * |        |          |This bit indicates the System SRAM parity error occurred. Write 1 to clear this to 0.
      * |        |          |0 = No System SRAM ECC error.
      * |        |          |1 = System SRAM ECC error occur.
-     * |        |          |*This function only works if ECCEN set to 1.
+     * |        |          |Note: This function only works if ECCEN set to 1.
      * @var SYS_T::SRAM_NSERRADDR
      * Offset: 0xF8  System SRAM Non-Secure ECC Error Address Register
      * ---------------------------------------------------------------------------------------------------
@@ -2475,30 +2463,32 @@ typedef struct
      * ---------------------------------------------------------------------------------------------------
      * |Bits    |Field     |Descriptions
      * | :----: | :----:   | :---- |
-     * |[0]     |SCL_PUCTLEN|I3C0 SCL PAD Pullup Control Enable
+     * |[0]     |SCL_PUCTLEN|I3C0 SCL PAD Pullup Control Enable Bit
      * |        |          |0 = I3C0 SCL PAD pullup controlled by GPIO(Default).
      * |        |          |1 = I3C0 SCL PAD pullup controlled by I3C0 controller.
      * |        |          |Note 1: If set to 0, pullup controllerd by PxPUSEL (x=A~H).
-     * |        |          |Note 2: Only effective when the I3C0_SCL is selected in multi-function pin selection.
-     * |[1]     |SDA_PUCTLEN|I3C0 SDA PAD Pullup Control Enable
+     * |        |          |Note 2: If set to 1, an external pullup resistor is required to provide the pullup function.
+     * |        |          |Note 3: Only effective when the I3C0_SCL is selected in multi-function pin selection.
+     * |[1]     |SDA_PUCTLEN|I3C0 SDA PAD Pullup Control Enable Bit
      * |        |          |0 = I3C0 SDA PAD pullup controlled by GPIO(Default).
      * |        |          |1 = I3C0 SDA PAD pullup controlled by I3C0 controller.
      * |        |          |Note 1: If set to 0, pullup controllerd by PxPUSEL (x=A~H).
-     * |        |          |Note 2: Only effective when the I3C0_SDA is selected in multi-function pin selection.
+     * |        |          |Note 2: If set to 1, an external pullup resistor is required to provide the pullup function.
+     * |        |          |Note 3: Only effective when the I3C0_SDA is selected in multi-function pin selection.
      * |[4]     |PA0_MODE1P8V|PA.0 Additional PMOS/NMOS Enable Bit
-     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V
+     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V.
      * |        |          |0 = Disable(Default).
      * |        |          |1 = Enable.
      * |[5]     |PA1_MODE1P8V|PA.1 Additional PMOS/NMOS Enable Bit
-     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V
+     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V.
      * |        |          |0 = Disable(Default).
      * |        |          |1 = Enable.
      * |[6]     |PA4_MODE1P8V|PA.4 Additional PMOS/NMOS Enable Bit
-     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V
+     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V.
      * |        |          |0 = Disable(Default).
      * |        |          |1 = Enable.
      * |[7]     |PA5_MODE1P8V|PA.5 Additional PMOS/NMOS Enable Bit
-     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V
+     * |        |          |For stronger sink/source current ~3mA at VDDIO=1.8V.
      * |        |          |0 = Disable(Default).
      * |        |          |1 = Enable.
      */
@@ -2511,10 +2501,10 @@ typedef struct
     __IO uint32_t BODCTL;                /*!< [0x0018] Brown-out Detector Control Register                              */
     __IO uint32_t IVSCTL;                /*!< [0x001c] Internal Voltage Source Control Register                         */
     __IO uint32_t IPRST3;                /*!< [0x0020] Peripheral Reset Control Register 3                              */
-    __IO uint32_t PORCTL;                /*!< [0x0024] Power-On-reset Controller Register                               */
+    __I  uint32_t RESERVE1[1];
     __IO uint32_t VREFCTL;               /*!< [0x0028] VREF Control Register                                            */
     __IO uint32_t USBPHY;                /*!< [0x002c] USB PHY Control Register                                         */
-    __I  uint32_t RESERVE1[20];
+    __I  uint32_t RESERVE2[20];
     __IO uint32_t GPA_MFOS;              /*!< [0x0080] GPIOA Multiple Function Output Select Register                   */
     __IO uint32_t GPB_MFOS;              /*!< [0x0084] GPIOB Multiple Function Output Select Register                   */
     __IO uint32_t GPC_MFOS;              /*!< [0x0088] GPIOC Multiple Function Output Select Register                   */
@@ -2523,31 +2513,31 @@ typedef struct
     __IO uint32_t GPF_MFOS;              /*!< [0x0094] GPIOF Multiple Function Output Select Register                   */
     __IO uint32_t GPG_MFOS;              /*!< [0x0098] GPIOG Multiple Function Output Select Register                   */
     __IO uint32_t GPH_MFOS;              /*!< [0x009c] GPIOH Multiple Function Output Select Register                   */
-    __I  uint32_t RESERVE2[2];
+    __I  uint32_t RESERVE3[2];
     __IO uint32_t VTORSET;               /*!< [0x00a8] VTOR Setting Register                                            */
-    __I  uint32_t RESERVE3[5];
+    __I  uint32_t RESERVE4[5];
     __IO uint32_t SRAM_INTCTL;           /*!< [0x00c0] System SRAM Secure ECC Interrupt Enable Control Register         */
     __IO uint32_t SRAM_STATUS;           /*!< [0x00c4] System SRAM Secure ECC Status Register                           */
     __I  uint32_t SRAM_ERRADDR;          /*!< [0x00c8] System SRAM Secure ECC Error Address Register                    */
     __IO uint32_t SRAM_LSCTL;            /*!< [0x00cc] SRAM Light Sleep Control Register                                */
     __IO uint32_t SRAM_BISTCTL;          /*!< [0x00d0] System SRAM BIST Test Control Register                           */
     __I  uint32_t SRAM_BISTSTS;          /*!< [0x00d4] System SRAM BIST Test Status Register                            */
-    __I  uint32_t RESERVE4[1];
-    __IO uint32_t SRAM_ECCEN;            /*!< [0x00dc] System SRAM ECC Control Register                                 */
     __I  uint32_t RESERVE5[1];
+    __IO uint32_t SRAM_ECCEN;            /*!< [0x00dc] System SRAM ECC Control Register                                 */
+    __I  uint32_t RESERVE6[1];
     __IO uint32_t HIRCTCTL;              /*!< [0x00e4] HIRC48M Trim Control Register                                    */
     __IO uint32_t HIRCTIEN;              /*!< [0x00e8] HIRC48M Trim Interrupt Enable Register                           */
     __IO uint32_t HIRCTISTS;             /*!< [0x00ec] HIRC48M Trim Interrupt Status Register                           */
     __IO uint32_t SRAM_NSINTCTL;         /*!< [0x00f0] System SRAM Non-Secure ECC Interrupt Enable Control Register     */
     __IO uint32_t SRAM_NSSTATUS;         /*!< [0x00f4] System SRAM Non-Secure ECC Status Register                       */
     __I  uint32_t SRAM_NSERRADDR;        /*!< [0x00f8] System SRAM Non-Secure ECC Error Address Register                */
-    __I  uint32_t RESERVE6[1];
+    __I  uint32_t RESERVE7[1];
     __O  uint32_t REGLCTL;               /*!< [0x0100] Register Lock Control Register                                   */
-    __I  uint32_t RESERVE7[58];
+    __I  uint32_t RESERVE8[58];
     __IO uint32_t PORDISAN;              /*!< [0x01ec] Analog POR Disable Control Register                              */
-    __I  uint32_t RESERVE8[132];
+    __I  uint32_t RESERVE9[132];
     __IO uint32_t AHBMCTL;               /*!< [0x0400] AHB Bus Matrix Priority Control Register                         */
-    __I  uint32_t RESERVE9[63];
+    __I  uint32_t RESERVE10[63];
     __IO uint32_t GPA_MFP0;              /*!< [0x0500] GPIOA Multiple Function Control Register 0                       */
     __IO uint32_t GPA_MFP1;              /*!< [0x0504] GPIOA Multiple Function Control Register 1                       */
     __IO uint32_t GPA_MFP2;              /*!< [0x0508] GPIOA Multiple Function Control Register 2                       */
@@ -2579,7 +2569,7 @@ typedef struct
     __IO uint32_t GPH_MFP0;              /*!< [0x0570] GPIOH Multiple Function Control Register 0                       */
     __IO uint32_t GPH_MFP1;              /*!< [0x0574] GPIOH Multiple Function Control Register 1                       */
     __IO uint32_t GPH_MFP2;              /*!< [0x0578] GPIOH Multiple Function Control Register 2                       */
-    __I  uint32_t RESERVE10[33];
+    __I  uint32_t RESERVE11[33];
     __IO uint32_t I3C0PADCTL;            /*!< [0x0600] I3C0 PAD Control Register                                        */
 
 } SYS_T;
@@ -2838,11 +2828,11 @@ typedef struct
 #define SYS_IPRST3_ELLSI1RST_Pos         (11)                                              /*!< SYS_T::IPRST3: ELLSI1RST Position      */
 #define SYS_IPRST3_ELLSI1RST_Msk         (0x1ul << SYS_IPRST3_ELLSI1RST_Pos)               /*!< SYS_T::IPRST3: ELLSI1RST Mask          */
 
-#define SYS_PORCTL_POROFF_Pos            (0)                                               /*!< SYS_T::PORCTL: POROFF Position         */
-#define SYS_PORCTL_POROFF_Msk            (0xfffful << SYS_PORCTL_POROFF_Pos)               /*!< SYS_T::PORCTL: POROFF Mask             */
-
 #define SYS_VREFCTL_VREFCTL_Pos          (0)                                               /*!< SYS_T::VREFCTL: VREFCTL Position       */
 #define SYS_VREFCTL_VREFCTL_Msk          (0x7ul << SYS_VREFCTL_VREFCTL_Pos)                /*!< SYS_T::VREFCTL: VREFCTL Mask           */
+
+#define SYS_VREFCTL_PRELOAD_SEL_Pos      (6)                                               /*!< SYS_T::VREFCTL: PRELOAD_SEL Position   */
+#define SYS_VREFCTL_PRELOAD_SEL_Msk      (0x3ul << SYS_VREFCTL_PRELOAD_SEL_Pos)            /*!< SYS_T::VREFCTL: PRELOAD_SEL Mask       */
 
 #define SYS_USBPHY_USBROLE_Pos           (0)                                               /*!< SYS_T::USBPHY: USBROLE Position        */
 #define SYS_USBPHY_USBROLE_Msk           (0x3ul << SYS_USBPHY_USBROLE_Pos)                 /*!< SYS_T::USBPHY: USBROLE Mask            */
@@ -3320,9 +3310,6 @@ typedef struct
 
 #define SYS_SRAM_BISTSTS_USBDBEND_Pos    (20)                                              /*!< SYS_T::SRAM_BISTSTS: USBDBEND Position */
 #define SYS_SRAM_BISTSTS_USBDBEND_Msk    (0x1ul << SYS_SRAM_BISTSTS_USBDBEND_Pos)          /*!< SYS_T::SRAM_BISTSTS: USBDBEND Mask     */
-
-#define SYS_SRAM_BISTSTS_SRBEND2_Pos     (26)                                              /*!< SYS_T::SRAM_BISTSTS: SRBEND2 Position  */
-#define SYS_SRAM_BISTSTS_SRBEND2_Msk     (0x1ul << SYS_SRAM_BISTSTS_SRBEND2_Pos)           /*!< SYS_T::SRAM_BISTSTS: SRBEND2 Mask      */
 
 #define SYS_SRAM_BISTSTS_I3CBEND_Pos     (28)                                              /*!< SYS_T::SRAM_BISTSTS: I3CBEND Position  */
 #define SYS_SRAM_BISTSTS_I3CBEND_Msk     (0x1ul << SYS_SRAM_BISTSTS_I3CBEND_Pos)           /*!< SYS_T::SRAM_BISTSTS: I3CBEND Mask      */

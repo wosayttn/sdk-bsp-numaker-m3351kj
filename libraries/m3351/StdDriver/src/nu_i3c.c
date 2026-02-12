@@ -328,6 +328,9 @@ void I3C_BusClkConfig(I3C_DEVICE_T *dev)
     }
 
     dev->port->BUSFAT |= (count << I3C_BUSFAT_FREETC_Pos);
+
+    /* I3C Read Termination Bit Low Count */
+    dev->port->SCLEXTTB |= I3C_SCLEXTTB_TERMCNTM_Msk;
 }
 
 /**

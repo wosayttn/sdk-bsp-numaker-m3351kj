@@ -19,8 +19,7 @@
 */
 /*
 // Bit 0..19
-// <o.0..19> Secure SRAM Size   <0=>       0 KB
-//                              <0x2000=>  8 KB
+// <o.0..19> Secure SRAM Size   <0x2000=>  8 KB
 //                              <0x4000=>  16 KB
 //                              <0x6000=>  24 KB
 //                              <0x8000=>  32 KB
@@ -36,9 +35,9 @@
 //                              <0x1C000=> 112 KB
 //                              <0x1E000=> 120 KB
 //                              <0x20000=> 128 KB
-//                              <0x22000=> 136 KB
-//                              <0x24000=> 144 KB
-//                              <0x28000=> 160 KB
+//                              <0x22000=> 136 KB (If ECC disabled)
+//                              <0x24000=> 144 KB (If ECC disabled)
+//                              <0x28000=> 160 KB (If ECC disabled)
 */
 #define SCU_SECURE_SRAM_SIZE        0x008000
 #define NON_SECURE_SRAM_BASE        (SRAM_BASE + NS_OFFSET + SCU_SECURE_SRAM_SIZE)
@@ -100,10 +99,9 @@
 */
 /*
 // Module 0..31
-//   <o.0>  USBD        <0=> Secure <1=> Non-Secure
 //   <o.8>  PDMA        <0=> Secure <1=> Non-Secure
+//   <o.9>  USBH        <0=> Secure <1=> Non-Secure
 //   <o.16> EBI         <0=> Secure <1=> Non-Secure
-//   <o.24> USBH        <0=> Secure <1=> Non-Secure
 */
 #define SCU_INIT_PNSSET0_VAL      0x0
 /*
@@ -111,8 +109,10 @@
 */
 /*
 // Module 0..31
+//   <h> CANFD
 //   <o.0>  CANFD0      <0=> Secure <1=> Non-Secure
 //   <o.4>  CANFD1      <0=> Secure <1=> Non-Secure
+//   </h>
 //   <o.17> CRC         <0=> Secure <1=> Non-Secure
 //   <o.22> CACHE       <0=> Secure <1=> Non-Secure
 */
@@ -125,21 +125,20 @@
 //   <o.1>  RTC         <0=> Secure <1=> Non-Secure
 //   <o.2>  WDT1        <0=> Secure <1=> Non-Secure
 //   <o.3>  EADC0       <0=> Secure <1=> Non-Secure
-//   <o.4>  EADC1       <0=> Secure <1=> Non-Secure
 //   <o.5>  ACMP01      <0=> Secure <1=> Non-Secure
-//
 //   <o.7>  DAC         <0=> Secure <1=> Non-Secure
+//   <o.11> EADC1       <0=> Secure <1=> Non-Secure
 //   <h> TIMER
-//   <o.16> TMR23       <0=> Secure <1=> Non-Secure
-//   <o.17> TMR45       <0=> Secure <1=> Non-Secure
-//   </h>
-//   <h> PWM
-//   <o.24> PWM0        <0=> Secure <1=> Non-Secure
-//   <o.25> PWM1        <0=> Secure <1=> Non-Secure
+//   <o.16> TMR01       <0=> Secure <1=> Non-Secure
+//   <o.17> TMR23       <0=> Secure <1=> Non-Secure
 //   </h>
 //   <h> BPWM
 //   <o.26>  BPWM0      <0=> Secure <1=> Non-Secure
 //   <o.27>  BPWM1      <0=> Secure <1=> Non-Secure
+//   </h>
+//   <h> PWM
+//   <o.28> PWM0        <0=> Secure <1=> Non-Secure
+//   <o.29> PWM1        <0=> Secure <1=> Non-Secure
 //   </h>
 */
 #define SCU_INIT_PNSSET2_VAL      0x0
@@ -225,8 +224,9 @@
 */
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PA
+//   <i> PA12 ~ PA15 are reserved for USB
 //   <o.0>  PA0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PA1         <0=> Secure <1=> Non-Secure
 //   <o.2>  PA2         <0=> Secure <1=> Non-Secure
@@ -239,17 +239,13 @@
 //   <o.9>  PA9         <0=> Secure <1=> Non-Secure
 //   <o.10> PA10        <0=> Secure <1=> Non-Secure
 //   <o.11> PA11        <0=> Secure <1=> Non-Secure
-//   <o.12> PA12        <0=> Secure <1=> Non-Secure
-//   <o.13> PA13        <0=> Secure <1=> Non-Secure
-//   <o.14> PA14        <0=> Secure <1=> Non-Secure
-//   <o.15> PA15        <0=> Secure <1=> Non-Secure
 //   </h>
 
 */
 #define SCU_INIT_IONSSET0_VAL      0x00000000
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PB
 //   <o.0>  PB0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PB1         <0=> Secure <1=> Non-Secure
@@ -273,7 +269,7 @@
 
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PC
 //   <o.0>  PC0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PC1         <0=> Secure <1=> Non-Secure
@@ -295,7 +291,7 @@
 #define SCU_INIT_IONSSET2_VAL      0x00000000
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PD
 //   <o.0>  PD0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PD1         <0=> Secure <1=> Non-Secure
@@ -319,7 +315,7 @@
 
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PE
 //   <o.0>  PE0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PE1         <0=> Secure <1=> Non-Secure
@@ -343,7 +339,7 @@
 
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PF
 //   <o.0>  PF0         <0=> Secure <1=> Non-Secure
 //   <o.1>  PF1         <0=> Secure <1=> Non-Secure
@@ -364,7 +360,7 @@
 
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PG
 //   <o.2>  PG2         <0=> Secure <1=> Non-Secure
 //   <o.3>  PG3         <0=> Secure <1=> Non-Secure
@@ -381,7 +377,7 @@
 #define SCU_INIT_IONSSET6_VAL      0x00000000
 
 /*
-// Bit 0..31
+// Bit 0..15
 //   <h> PH
 //   <o.4>  PH4         <0=> Secure <1=> Non-Secure
 //   <o.5>  PH5         <0=> Secure <1=> Non-Secure
@@ -409,7 +405,7 @@
 */
 
 /*
-// Bit 0..31
+// Bit 0..7
 //   <o.0>  EINT0       <0=> Secure <1=> Non-Secure
 //   <o.1>  EINT1       <0=> Secure <1=> Non-Secure
 //   <o.2>  EINT2       <0=> Secure <1=> Non-Secure
@@ -435,7 +431,7 @@
 */
 
 /*
-// Bit 0..31
+// Bit 0..7
 //   <o.0>  GPA         <0=> Secure <1=> Non-Secure
 //   <o.1>  GPB         <0=> Secure <1=> Non-Secure
 //   <o.2>  GPC         <0=> Secure <1=> Non-Secure
@@ -563,11 +559,11 @@
 /*
 //     <o>Start Address <0-0xFFFFFFE0>
 */
-#define SAU_INIT_START3     0x13F000
+#define SAU_INIT_START3     0x3F000
 /*
 //     <o>End Address <0x1F-0xFFFFFFFF>
 */
-#define SAU_INIT_END3       0x13FFFF
+#define SAU_INIT_END3       0x3FFFF
 /*
 //     <o>Region is
 //         <0=>Non-secure
@@ -773,3 +769,4 @@
                  ((SAU_INIT_NSC##n << SAU_RLAR_NSC_Pos)  & SAU_RLAR_NSC_Msk)   | 1U
 
 #endif  /* __NU_PARTITION_M3351_TEMPLATE_H__ */
+

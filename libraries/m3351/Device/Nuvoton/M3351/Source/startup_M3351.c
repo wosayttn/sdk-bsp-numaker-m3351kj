@@ -347,6 +347,12 @@ const VECTOR_TABLE_Type __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE =
     #pragma GCC diagnostic pop
 #endif
 
+/* If some peripherals (e.g. Hyper RAM) must be initialized before startup routine
+ *   user can implement its own Reset_Handler_PreInit to do early initialization.
+ *
+ * All code in Reset_Handler_PreInit must have the same load address and execution address;
+ * otherwise, users need to provide their own implementation of Reset_Handler_PreInit.
+ */
 __WEAK void Reset_Handler_PreInit(void)
 {
     // Empty function
@@ -355,7 +361,12 @@ __WEAK void Reset_Handler_PreInit(void)
 /*----------------------------------------------------------------------------
   Reset Handler called on controller reset
  *----------------------------------------------------------------------------*/
-__NO_RETURN void Reset_Handler(void)
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)
+    __attribute__((naked))
+#else
+    __NO_RETURN
+#endif
+void Reset_Handler(void)
 {
 #if defined(__SECURE_CODE) || !defined(__NONSECURE_CODE)
     SYS_UnlockReg();

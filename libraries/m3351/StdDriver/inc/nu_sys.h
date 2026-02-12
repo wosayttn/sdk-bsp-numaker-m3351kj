@@ -2322,34 +2322,6 @@ extern "C"
 #define SYS_ENABLE_LVR()                (SYS->BODCTL |= SYS_BODCTL_LVREN_Msk)
 
 /**
-  * @brief      Disable Power-on Reset function
-  * @param      None
-  * @return     None
-  * @details    This macro disable Power-on Reset function.
-  *             The register write-protection function should be disabled before using this macro.
-  * \hideinitializer
-  */
-#define SYS_DISABLE_POR() \
-    do { \
-        (SYS->PORCTL = 0x5AA5); \
-        (SYS->PORDISAN = 0x5AA5); \
-    } while(0)
-
-/**
-  * @brief      Enable Power-on Reset function
-  * @param      None
-  * @return     None
-  * @details    This macro enable Power-on Reset function.
-  *             The register write-protection function should be disabled before using this macro.
-  * \hideinitializer
-  */
-#define SYS_ENABLE_POR() \
-    do { \
-        (SYS->PORCTL = 0); \
-        (SYS->PORDISAN = 0); \
-    } while(0)
-
-/**
   * @brief      Clear reset source flag
   * @param[in]  u32RstSrc is reset source. Including :
   *             - \ref SYS_RSTSTS_PORF_Msk

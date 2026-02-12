@@ -104,8 +104,7 @@ typedef struct
      * |[31]    |HXTMD     |HXT Mode Selection (Write Protect)
      * |        |          |0 = HXT work as crystal mode. PF.2 and PF.3 are configured as external high speed crystal (HXT) pins.
      * |        |          |1 = HXT works as external clock mode. PF.3 is configured as external clock input pin.
-     * |        |          |Note 1: This bit is write protected. Refer to the SYS_REGCTL register.
-     * |        |          |Note 2: When external clock mode enable, HXTSELTYP(CLK_PWRCTL[12]) must be set as GM type.
+     * |        |          |Note: This bit is write protected. Refer to the SYS_REGCTL register.
      * @var CLK_T::AHBCLK0
      * Offset: 0x04  AHB Devices Clock Enable Control Register 0
      * ---------------------------------------------------------------------------------------------------
@@ -390,7 +389,6 @@ typedef struct
      * |        |          |011 = Clock source from HIRC.
      * |        |          |100 = Clock source from LIRC.
      * |        |          |101 = Clock source from PLL.
-     * |        |          |110 = Clock source from USBD SOF.
      * |        |          |Others = Reserved.
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
      * |[10:8]  |TMR0SEL   |TIMER0 Clock Source Selection
@@ -839,7 +837,7 @@ typedef struct
      * |        |          |SRETSEL[1] = Bank1 SRAM retention when chip enter SPD mode.
      * |        |          |1: SPD retention
      * |        |          |0: SPD no retention
-     * |        |          |SRETSEL[2] = Bank2 SRAM retention when chip enter SPD mode (ECC disable).(default)
+     * |        |          |SRETSEL[2] = Bank2 SRAM retention when chip enter SPD mode (ECC disable).
      * |        |          |1: SPD retention
      * |        |          |0: SPD no retention
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
@@ -866,7 +864,7 @@ typedef struct
      * |        |          |Others = Time-out interval is 512 LIRC clocks (13.3ms).
      * |        |          |Note: These bits are write protected. Refer to the SYS_REGLCTL register.
      * |[13]    |WKTMRMOD  |Wake-up Timer Mode (Write Protect)
-     * |        |          |0 = Wake-up timer started when entering power down mode.
+     * |        |          |0 = Wake-up timer started when entering Power-down mode.
      * |        |          |1 = Wake-up timer started immedially when WKTMREN (CLK_PMUCTL[8]) =1.
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[18]    |ACMPSPWK  |ACMP Standby Power-down Mode Wake-up Enable Bit (Write Protect)

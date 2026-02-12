@@ -975,7 +975,7 @@ void CLK_DisableModuleClock(uint32_t u32ModuleIdx)
   * @param[in]  u32PllClkSrc is PLL clock source. Including :
   *             - \ref CLK_PLLCTL_PLLSRC_HXT
   *             - \ref CLK_PLLCTL_PLLSRC_HIRC_DIV4
-  * @param[in]  u32PllFreq is PLL frequency. The range of u32PllFreq is 50 MHz ~ 500 MHz.
+  * @param[in]  u32PllFreq is PLL frequency. The range of u32PllFreq is 30 MHz ~ 320 MHz.
   * @return     PLL frequency
   * @details    This function is used to configure CLK_PLLCTL register to set specified PLL frequency. \n
   *             The register write-protection function should be disabled before using this function.
@@ -1467,6 +1467,129 @@ uint32_t CLK_GetModuleClockDivider(uint32_t u32ModuleIdx)
     }
 
     return u32DivVal;
+}
+
+/**
+  * @brief      This function execute delay function.
+  * @param[in]  us  Delay time. The Max value is 2^24 / CPU Clock(MHz). Ex:
+  *                             144MHz => 116508, 100MHz => 167772...
+  * @return     None
+  * @details    Use the SysTick to generate the delay time and the unit is in us.
+  *             The SysTick clock source is from HCLK, i.e the same as system core clock.
+  *             User can use SystemCoreClockUpdate() to calculate CyclesPerUs automatically before using this function.
+  */
+void CLK_SysTickDelay(uint32_t us)
+{
+    uint32_t u32TargetValue;
+    uint32_t u32TargetInt;
+    uint32_t u32TargetRem;
+    uint32_t u32DelayCycles;
+    uint32_t SysTickValue;
+
+    /* Systick function is using and clock source is core clock */
+    if ((SysTick->CTRL & (SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk)) == (SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk))
+    {
+        u32DelayCycles = us * CyclesPerUs;
+
+        if (u32DelayCycles > SysTick->LOAD)
+        {
+            /* Calculate re-load cycles with current SysTick->LOAD */
+            u32TargetInt = u32DelayCycles / SysTick->LOAD;
+
+            /* Calculate remainder delay cycles */
+            u32TargetRem = u32DelayCycles % SysTick->LOAD;
+        }
+        else
+        {
+            u32TargetInt = 0;
+            u32TargetRem = u32DelayCycles;
+        }
+
+        SysTickValue = SysTick->VAL;
+
+        if (u32TargetRem > SysTickValue)
+        {
+            u32TargetValue = SysTick->LOAD;
+            u32TargetValue = u32TargetValue - (u32TargetRem - SysTickValue);
+            u32TargetInt++;
+        }
+        else
+        {
+            u32TargetValue = SysTickValue - u32TargetRem;
+        }
+
+        while (u32TargetInt > 0)
+        {
+            /* Wait for the countdown to reach zero */
+            while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0UL)
+            {
+            }
+
+            u32TargetInt--;
+        }
+
+        /* Wait for the countdown to reach the target value */
+        while (SysTick->VAL > u32TargetValue)
+        {
+            /* Current value has been reloaded */
+            if (SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)
+                break;
+        }
+    }
+    else
+    {
+        SysTick->LOAD = us * CyclesPerUs;
+        SysTick->VAL  = 0x0UL;
+        SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+
+        /* Waiting for down-count to zero */
+        while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0UL)
+        {
+        }
+
+        /* Disable SysTick counter */
+        SysTick->CTRL = 0UL;
+    }
+}
+
+/**
+  * @brief      This function execute long delay function.
+  * @param[in]  us  Delay time.
+  * @return     None
+  * @details    Use the SysTick to generate the long delay time and the UNIT is in us.
+  *             The SysTick clock source is from HCLK, i.e the same as system core clock.
+  *             User can use SystemCoreClockUpdate() to calculate CyclesPerUs automatically before using this function.
+  */
+void CLK_SysTickLongDelay(uint32_t us)
+{
+    uint32_t u32Delay;
+    uint32_t u32usTemp = us;
+
+    /* It should <= 65536us for each delay loop */
+    u32Delay = 65536UL;
+
+    do
+    {
+        if (u32usTemp > u32Delay)
+        {
+            u32usTemp -= u32Delay;
+        }
+        else
+        {
+            u32Delay = u32usTemp;
+            u32usTemp = 0UL;
+        }
+
+        SysTick->LOAD = u32Delay * CyclesPerUs;
+        SysTick->VAL  = (0x0UL);
+        SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+
+        /* Waiting for down-count to zero */
+        while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0UL);
+
+        /* Disable SysTick counter */
+        SysTick->CTRL = 0UL;
+    } while (u32usTemp > 0UL);
 }
 
 /** @} end of group CLK_EXPORTED_FUNCTIONS */

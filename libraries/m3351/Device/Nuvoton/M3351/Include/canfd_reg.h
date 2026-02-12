@@ -1776,9 +1776,9 @@ typedef struct
 #define CANFD_STSEL_RXSS_Pos             (8)                                               /*!< CANFD_T::STSEL: RXSS Position          */
 #define CANFD_STSEL_RXSS_Msk             (0x3ul << CANFD_STSEL_RXSS_Pos)                   /*!< CANFD_T::STSEL: RXSS Mask              */
 
-/**@}*/ /* CANFD_CONST */
-/**@}*/ /* end of CANFD register group */
-/**@}*/ /* end of REGISTER group */
+/** @} CANFD_CONST */
+/** @} end of CANFD register group */
+/** @} end of REGISTER group */
 
 #if defined ( __CC_ARM   )
     #pragma no_anon_unions
