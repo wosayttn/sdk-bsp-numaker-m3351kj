@@ -453,7 +453,7 @@ typedef struct
      * |        |          |The clock frequency of bit clock , fBCLK, is determined by the following expression:
      * |        |          |where
      * |        |          |is the frequency of I2S peripheral clock source, which is defined in the clock control register, CLK_CLKSEL2 or CLK_CLKSEL3.
-     * |        |          |In I2S Slave mode, this field is used to define the frequency of peripheral clock and itu2019s determined by .
+     * |        |          |In I2S Slave mode, this field is used to define the frequency of peripheral clock and it's determined by .
      * |        |          |The peripheral clock frequency in I2S Slave mode must be equal to or faster than 6 times of input bit clock.
      * |        |          |Note: The time interval must be larger than or equal to 8 peripheral clock cycles between releasing SPI IP software reset and setting this clock divider register.
      * |[24]    |I2SMODE   |I2S Clock Divider Number Selection for I2S Mode and SPI Mode

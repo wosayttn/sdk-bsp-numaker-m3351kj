@@ -738,7 +738,7 @@ uint32_t I2C_WriteMultiBytes(I2C_T *i2c, uint8_t u8SlaveAddr, const  uint8_t dat
 {
     uint8_t u8Xfering = 1u;
     uint8_t u8Err = 0u;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = I2C_CTL_SI;
     uint32_t u32txLen = 0u;
     uint32_t u32TimeOutCount;
     g_I2C_i32ErrCode = 0;
@@ -865,7 +865,7 @@ uint32_t I2C_WriteMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Da
 {
     uint8_t u8Xfering = 1u;
     uint8_t u8Err = 0u;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = I2C_CTL_SI;
     uint32_t u32txLen = 0u;
     uint32_t u32TimeOutCount;
     g_I2C_i32ErrCode = 0;
@@ -996,7 +996,7 @@ uint32_t I2C_WriteMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u1
     uint8_t u8Xfering = 1u;
     uint8_t u8Err = 0u;
     uint8_t u8Addr = 1u;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = I2C_CTL_SI;
     uint32_t u32txLen = 0u;
     uint32_t u32TimeOutCount;
     g_I2C_i32ErrCode = 0;
@@ -1268,7 +1268,7 @@ uint32_t I2C_ReadMultiBytesOneReg(I2C_T *i2c, uint8_t u8SlaveAddr, uint8_t u8Dat
 {
     uint8_t u8Xfering = 1u;
     uint8_t u8Err = 0u;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = I2C_CTL_SI;
     uint32_t u32rxLen = 0u;
     uint32_t u32TimeOutCount;
     g_I2C_i32ErrCode = 0;
@@ -1429,7 +1429,7 @@ uint32_t I2C_ReadMultiBytesTwoRegs(I2C_T *i2c, uint8_t u8SlaveAddr, uint16_t u16
     uint8_t u8Xfering = 1u;
     uint8_t u8Err = 0u;
     uint8_t u8Addr = 1u;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = I2C_CTL_SI;
     uint32_t u32rxLen = 0u;
     uint32_t u32TimeOutCount;
     g_I2C_i32ErrCode = 0;

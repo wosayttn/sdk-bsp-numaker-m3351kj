@@ -341,7 +341,7 @@ typedef struct
      * |        |          |0 = No effect.
      * |        |          |1 = No data in Transmit FIFO and TX shift register when the slave selection signal is active.
      * |        |          |Note 1: This bit will be cleared by writing 1 to it.
-     * |        |          |Note 2: If reset slaveu2019s transmission circuit when slave selection signal is active, this flag will be set to 1 after 2 peripheral clock cycles + 3 system clock cycles since the reset operation is done.
+     * |        |          |Note 2: If reset slave's transmission circuit when slave selection signal is active, this flag will be set to 1 after 2 peripheral clock cycles + 3 system clock cycles since the reset operation is done.
      * |[23]    |TXRXRST   |TX or RX Reset Status (Read Only)
      * |        |          |0 = The reset function of TXRST or RXRST is done.
      * |        |          |1 = Doing the reset function of TXRST or RXRST.

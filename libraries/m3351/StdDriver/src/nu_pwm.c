@@ -35,7 +35,7 @@ uint32_t PWM_ConfigCaptureChannel(PWM_T *pwm, uint32_t u32ChannelNum, uint32_t u
 {
     uint32_t u32Src;
     uint32_t u32PWMClockSrc;
-    uint32_t u32NearestUnitTimeNsec;
+    uint32_t u32NearestUnitTimeNsec = 0;
     uint16_t u16Prescale = 1UL, u16CNR = 0xFFFFUL;
 
     NVT_UNUSED(u32CaptureEdge);

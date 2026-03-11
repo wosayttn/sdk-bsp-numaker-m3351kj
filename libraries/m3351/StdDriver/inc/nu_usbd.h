@@ -751,30 +751,26 @@ __STATIC_INLINE void USBD_ClearStall(uint8_t epnum)
   * @param[in]   epnum  USB endpoint number
   *
   * @retval      0      USB endpoint is not stalled.
-  * @retval      Others USB endpoint is stalled.
+  * @retval      1      USB endpoint is stalled.
+  * @retval      0xFF   Endpoint number not found.
   *
-  * @details     Get USB endpoint stall state.
+  * @details     Find the configuration for the specified endpoint number and return its stall state.
   *
   */
 __STATIC_INLINE uint32_t USBD_GetStall(uint8_t epnum)
 {
-    uint32_t u32CfgAddr;
+    uint32_t i;
 
-    for (uint32_t i = 0ul; i < USBD_MAX_EP; i++)
+    for (i = 0ul; i < USBD_MAX_EP; i++)
     {
-        u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFG; /* USBD_CFG0 */
-        uint32_t u32Cfg = *((__IO uint32_t *)(u32CfgAddr));
-
-        if ((u32Cfg & 0xful) == epnum)
+        if ((USBD->EP[i].CFG & 0xFul) == (uint32_t)epnum)
         {
-            u32CfgAddr = (uint32_t)(i << 4) + (uint32_t)&USBD->EP[0].CFGP; /* USBD_CFGP0 */
-            break;
+            return (USBD->EP[i].CFGP & USBD_CFGP_SSTALL) ? 1ul : 0ul;
         }
     }
 
-    return ((*((__IO uint32_t *)(u32CfgAddr))) & USBD_CFGP_SSTALL);
+    return 0xFFul;
 }
-
 typedef void (*VENDOR_REQ)(void);           /*!< Functional pointer type definition for Vendor class */
 typedef void (*CLASS_REQ)(void);            /*!< Functional pointer type declaration for USB class request callback handler */
 typedef void (*SET_INTERFACE_REQ)(uint32_t u32AltInterface);    /*!< Functional pointer type declaration for USB set interface request callback handler */

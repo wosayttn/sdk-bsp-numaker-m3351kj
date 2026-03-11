@@ -155,61 +155,55 @@ int32_t FMC_EraseXOM(uint32_t u32XomNum)
     if (u32XomNum >= XOMR_CNT)
     {
         i32RetCode = FMC_ERR_INVALID_PARAM;
+        g_FMC_i32ErrCode = i32RetCode;
+        return i32RetCode;
+    }
+
+    i32Active = FMC_GetXOMState(u32XomNum);
+
+    if (i32Active)
+    {
+        switch (u32XomNum)
+        {
+            case 0u:
+                u32Addr = (FMC->XOMR0STS & 0xFFFFFF00U) >> 8U;
+                break;
+            default:
+                u32Addr = (FMC->XOMR1STS & 0xFFFFFF00U) >> 8U;
+                break;
+        }
+
+        if (i32RetCode == FMC_OK)
+        {
+            FMC->ISPCMD  = FMC_ISPCMD_PAGE_ERASE;
+            FMC->ISPADDR = u32Addr;
+            FMC->ISPDAT  = 0x55aa03U;
+            FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
+#if defined (ISBEN) && (ISBEN == 1)
+            __ISB();
+#endif
+            i32TimeOutCnt = FMC_TIMEOUT_ERASE;
+
+            while (FMC->ISPTRG)
+            {
+                if (i32TimeOutCnt-- <= 0)
+                {
+                    i32RetCode = FMC_ERR_TIMEOUT;
+                    break;
+                }
+            }
+
+            /* Check ISPFF flag to know whether erase OK or fail. */
+            if (FMC->ISPCTL & FMC_ISPCTL_ISPFF_Msk)
+            {
+                FMC->ISPCTL |= FMC_ISPCTL_ISPFF_Msk;
+                i32RetCode = FMC_ERR_FAIL;
+            }
+        }
     }
     else
     {
-        i32Active = FMC_GetXOMState(u32XomNum);
-
-        if (i32Active)
-        {
-            switch (u32XomNum)
-            {
-                case 0u:
-                    u32Addr = (FMC->XOMR0STS & 0xFFFFFF00U) >> 8U;
-                    break;
-
-                case 1u:
-                    u32Addr = (FMC->XOMR1STS & 0xFFFFFF00U) >> 8U;
-                    break;
-
-                default:
-                    /* Should not be here */
-                    i32RetCode = FMC_ERR_INVALID_PARAM;
-                    break;
-            }
-
-            if (i32RetCode == FMC_OK)
-            {
-                FMC->ISPCMD  = FMC_ISPCMD_PAGE_ERASE;
-                FMC->ISPADDR = u32Addr;
-                FMC->ISPDAT  = 0x55aa03U;
-                FMC->ISPTRG  = FMC_ISPTRG_ISPGO_Msk;
-#if defined (ISBEN) && (ISBEN == 1)
-                __ISB();
-#endif
-                i32TimeOutCnt = FMC_TIMEOUT_ERASE;
-
-                while (FMC->ISPTRG)
-                {
-                    if (i32TimeOutCnt-- <= 0)
-                    {
-                        i32RetCode = FMC_ERR_TIMEOUT;
-                        break;
-                    }
-                }
-
-                /* Check ISPFF flag to know whether erase OK or fail. */
-                if (FMC->ISPCTL & FMC_ISPCTL_ISPFF_Msk)
-                {
-                    FMC->ISPCTL |= FMC_ISPCTL_ISPFF_Msk;
-                    i32RetCode = FMC_ERR_FAIL;
-                }
-            }
-        }
-        else
-        {
-            i32RetCode = FMC_ERR_XOM_INACTIVE;
-        }
+        i32RetCode = FMC_ERR_XOM_INACTIVE;
     }
 
     g_FMC_i32ErrCode = i32RetCode;

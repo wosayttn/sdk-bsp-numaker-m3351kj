@@ -126,7 +126,8 @@ int32_t TRNG_GenWord(uint32_t *u32RndNum)
   */
 int32_t TRNG_GenBignum(uint8_t u8BigNum[], int32_t i32Len)
 {
-    uint32_t   i, u32Reg, timeout;
+    uint32_t   u32Reg, timeout;
+	int32_t    i;
 
     u32Reg = TRNG->CTL;
 
@@ -164,8 +165,9 @@ int32_t TRNG_GenBignum(uint8_t u8BigNum[], int32_t i32Len)
   */
 int32_t TRNG_GenBignumHex(char cBigNumHex[], int32_t i32Len)
 {
-    uint32_t   i, idx, u32Reg, timeout;
+    uint32_t   idx, u32Reg, timeout;
     uint32_t   data;
+	int32_t    i;
 
     u32Reg = TRNG->CTL;
     idx = 0;

@@ -202,7 +202,7 @@ void SYS_ResetModule(uint32_t u32ModuleIndex)
   *             - \ref SYS_BODCTL_BOD_RST_EN
   *             - \ref SYS_BODCTL_BOD_INTERRUPT_EN
   * @param[in]  u32BODLevel is Brown-out voltage level. Including :
-  *             - \ref SYS_BODCTL_BODVL_2_7V
+  *             - \ref SYS_BODCTL_BODVL_2_8V
   *             - \ref SYS_BODCTL_BODVL_3_7V
   *             - \ref SYS_BODCTL_BODVL_4_4V
   * @return     None

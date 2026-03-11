@@ -484,115 +484,89 @@ typedef struct
   * @brief      Get the feedback pixel count.
   * @param[in]  ellsi The pointer of the specified ELLSI module.
   * @param[in]  u32ID The 4-bit strip ID. It can be 1 ~ 15.
-  * @retval     The number of feedback pixel count. It can be 1 ~ 1023.
-  * @retval     -1 Unknown strip ID number.
+  * @retval     >=0   The number of feedback pixel count (1 ~ 1023).
+  * @retval     -1    Unknown strip ID number or out of range.
   * @details    Read FBPCNT bit of ELLSI_FBPCNTn register to get the feedback pixel count of IDn.
   */
 __STATIC_INLINE int32_t ELLSI_GET_FB_COUNT(ELLSI_T *ellsi, uint32_t u32ID)
 {
-    uint32_t i;
-    uint32_t u32FBPCNT;
+    uint32_t u32Idx;
 
-    if ((u32ID == 0) || (u32ID >= 16))
-        return -1;
-
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15))
     {
-        u32FBPCNT = ellsi->FB[i].FBPCNT;
-
-        if (i == (u32ID - 1))
-            break;
+        return -1;
     }
 
-    return u32FBPCNT & ELLSI_FBPCNT_FBPCNT_Msk;
+    u32Idx = u32ID - 1;
+
+    return (int32_t)(ellsi->FB[u32Idx].FBPCNT & ELLSI_FBPCNT_FBPCNT_Msk);
 }
 
 /**
   * @brief      Set the feedback pixel count.
-  * @param[in]  ellsi The pointer of the specified ELLSI module.
-  * @param[in]  u32ID The 4-bit strip ID. It can be 1 ~ 15.
+  * @param[in]  ellsi    The pointer of the specified ELLSI module.
+  * @param[in]  u32ID    The 4-bit strip ID. It can be 1 ~ 15.
   * @param[in]  u32IDCnt The number of feedback pixel count.
-  * @retval     The number of feedback pixel count. It can be 1 ~ 1023.
-  * @retval     -1 Set strip ID number failed.
+  * @retval     >=0      The number of feedback pixel count (1 ~ 1023).
+  * @retval     -1       Set strip ID number failed or ID out of range.
   * @details    Set FBPCNT (ELLSI_FBPCNTn[9:0]) to set the feedback pixel count of IDn.
   */
 __STATIC_INLINE int32_t ELLSI_SET_FB_COUNT(ELLSI_T *ellsi, uint32_t u32ID, uint32_t u32IDCnt)
 {
-    uint32_t i;
-    uint32_t *u32FBPCNT;
+    uint32_t u32Idx;
 
-    if ((u32ID == 0) || (u32ID >= 16))
-        return -1;
-
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15))
     {
-        u32FBPCNT = (uint32_t *)((uint32_t)&ellsi->FB[i].FBPCNT);
-
-        if (i == (u32ID - 1))
-        {
-            *u32FBPCNT = u32IDCnt;
-            break;
-        }
+        return -1;
     }
 
-    return *u32FBPCNT & ELLSI_FBPCNT_FBPCNT_Msk;
+    u32Idx = u32ID - 1;
+
+    ellsi->FB[u32Idx].FBPCNT = (u32IDCnt & ELLSI_FBPCNT_FBPCNT_Msk);
+
+    return (int32_t)(ellsi->FB[u32Idx].FBPCNT & ELLSI_FBPCNT_FBPCNT_Msk);
 }
 
 /**
   * @brief      Get the feedback pixel current.
   * @param[in]  ellsi The pointer of the specified ELLSI module.
   * @param[in]  u32ID The 4-bit strip ID. It can be 1 ~ 15.
-  * @retval     0  The current feedback from the LED is 5mA.
-  * @retval     1  The current feedback from the LED is 12mA.
-  * @retval     -1 Unknown strip ID number.
+  * @retval     0     The current feedback from the LED is 5mA.
+  * @retval     1     The current feedback from the LED is 12mA.
+  * @retval     -1    Unknown strip ID number or out of range.
   * @details    Read FBPCUR bit of ELLSI_FBPCNTn register to get the feedback pixel current of IDn.
   */
 __STATIC_INLINE int32_t ELLSI_GET_FB_CURRENT(ELLSI_T *ellsi, uint32_t u32ID)
 {
-    uint32_t i;
-    uint32_t u32FBPCUR;
+    uint32_t u32Idx;
 
-    if ((u32ID == 0) || (u32ID >= 16))
-        return -1;
-
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15))
     {
-        u32FBPCUR = ellsi->FB[i].FBPCNT;
-
-        if (i == (u32ID - 1))
-            break;
+        return -1;
     }
 
-    return (u32FBPCUR & ELLSI_FBPCNT_FBPCUR_Msk) >> ELLSI_FBPCNT_FBPCUR_Pos;
+    u32Idx = u32ID - 1;
+
+    return (int32_t)((ellsi->FB[u32Idx].FBPCNT & ELLSI_FBPCNT_FBPCUR_Msk) >> ELLSI_FBPCNT_FBPCUR_Pos);
 }
 
 /**
   * @brief      Get the feedback strip ID.
   * @param[in]  ellsi The pointer of the specified ELLSI module.
   * @param[in]  u32ID The 4-bit strip ID. It can be 1 ~ 15.
-  * @retval     0  The 32-bit feedback strip ID.
-  * @retval     -1 Unknown strip ID number.
+  * @retval     >=0   The 32-bit feedback strip ID.
+  * @retval     -1    Unknown strip ID number or out of range.
   * @details    Read FBSID bit of ELLSI_FBSIDn register to get the feedback strip ID of IDn.
   */
 __STATIC_INLINE int32_t ELLSI_GET_FB_ID(ELLSI_T *ellsi, uint32_t u32ID)
 {
-    uint32_t i;
-    uint32_t u32FBSID;
-
-    if ((u32ID == 0) || (u32ID >= 16))
-        return -1;
-
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15) || ((u32ID - 1) >= ELLSI_MAX_STRIP_CNT))
     {
-        u32FBSID = ellsi->FB[i].FBSID;
-
-        if (i == (u32ID - 1))
-            break;
+        return -1;
     }
 
-    return u32FBSID;
+    return (int32_t)(ellsi->FB[u32ID - 1].FBSID);
 }
-
 /**
   * @brief      Enable force TH20 command.
   * @param[in]  ellsi The pointer of the specified ELLSI module.

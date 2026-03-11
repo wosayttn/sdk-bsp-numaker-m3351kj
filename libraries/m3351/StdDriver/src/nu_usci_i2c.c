@@ -630,7 +630,7 @@ uint8_t UI2C_WriteByte(UI2C_T *ui2c, uint8_t u8SlaveAddr, uint8_t data)
 uint32_t UI2C_WriteMultiBytes(UI2C_T *ui2c, uint8_t u8SlaveAddr, const uint8_t *data, uint32_t u32wLen)
 {
     uint8_t u8Xfering = 1U;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = UI2C_CTL_PTRG;
     uint32_t u32txLen = 0U;
     g_UI2C_i32ErrCode = 0;
     UI2C_START(ui2c);                                                       /* Send START */
@@ -746,7 +746,7 @@ uint8_t UI2C_WriteByteOneReg(UI2C_T *ui2c, uint8_t u8SlaveAddr, uint8_t u8DataAd
 uint32_t UI2C_WriteMultiBytesOneReg(UI2C_T *ui2c, uint8_t u8SlaveAddr, uint8_t u8DataAddr, const uint8_t *data, uint32_t u32wLen)
 {
     uint8_t u8Xfering = 1U;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = UI2C_CTL_PTRG;
     uint32_t u32txLen = 0U;
     enum UI2C_MASTER_EVENT eEvent = MASTER_SEND_START;
     g_UI2C_i32ErrCode = 0;
@@ -873,7 +873,7 @@ uint32_t UI2C_WriteMultiBytesTwoRegs(UI2C_T *ui2c, uint8_t u8SlaveAddr, uint16_t
 {
     uint8_t u8Xfering = 1U;
     uint8_t u8Addr = 1U;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = UI2C_CTL_PTRG;
     uint32_t u32txLen = 0U;
     enum UI2C_MASTER_EVENT eEvent = MASTER_SEND_START;
     g_UI2C_i32ErrCode = 0;
@@ -1309,7 +1309,7 @@ uint32_t UI2C_ReadMultiBytesTwoRegs(UI2C_T *ui2c, uint8_t u8SlaveAddr, uint16_t 
 {
     uint8_t u8Xfering = 1U;
     uint8_t u8Addr = 1U;
-    uint32_t u32Ctrl = 0;
+    uint32_t u32Ctrl = UI2C_CTL_PTRG;
     uint32_t u32rxLen = 0U;
     enum UI2C_MASTER_EVENT eEvent = MASTER_SEND_START;
     g_UI2C_i32ErrCode = 0;

@@ -35,7 +35,7 @@
 uint32_t TPWM_ConfigOutputFreqAndDuty(TIMER_T *timer, uint32_t u32Frequency, uint32_t u32DutyCycle)
 {
     uint32_t u32Src = 2UL, u32PWMClockFreq, u32TargetFreq;
-    uint32_t u32Prescaler = 0x100UL, u32Period;
+    uint32_t u32Prescaler = 0x100UL, u32Period = 1;
     const uint32_t au32Clk[] = {__HXT, __LXT, 0UL, 0UL, 0UL, __LIRC, 0UL, __HIRC};
 
     if (u32Frequency == 0)

@@ -52,23 +52,23 @@ typedef struct
      * |[6]     |ISPFF     |ISP Fail Flag (Write Protect)
      * |        |          |This bit is set by hardware when a triggered ISP meets any of the following conditions:
      * |        |          |This bit needs to be cleared by writing 1 to it.
-     * |        |          |u00B7 APROM writes to itself if APUEN is set to 0.
-     * |        |          |u00B7 LDROM writes to itself if LDUEN is set to 0.
-     * |        |          |u00B7 Data Flash writes to itself if DFUEN is set to 0.
-     * |        |          |u00B7 CONFIG is erased/programmed if CFGUEN is set to 0.
-     * |        |          |u00B7 Page Erase command at LOCK mode with ICE connection
-     * |        |          |u00B7 Erase or Program command at brown-out detected
-     * |        |          |u00B7 Destination address is illegal, such as over an available range.
-     * |        |          |u00B7 Invalid ISP commands
-     * |        |          |u00B7 Read any content of boot loader with ICE connection
-     * |        |          |u00B7 The address of block erase and bank erase is not in APROM
-     * |        |          |u00B7 ISP CMD in XOM region, except mass erase, page erase and chksum command
-     * |        |          |u00B7 The wrong setting of page erase ISP CMD in XOM
-     * |        |          |u00B7 Violate XOM setting one time protection
-     * |        |          |u00B7 Page erase ISP CMD in Secure/Non-secure region setting page
-     * |        |          |u00B7 Mass erase when MERASE (CFG0[13]) is disabled
-     * |        |          |u00B7 Page erase, mass erase, 64-bit word program in OTP
-     * |        |          |u00B7 ISP conflict error
+     * |        |          |· APROM writes to itself if APUEN is set to 0.
+     * |        |          |· LDROM writes to itself if LDUEN is set to 0.
+     * |        |          |· Data Flash writes to itself if DFUEN is set to 0.
+     * |        |          |· CONFIG is erased/programmed if CFGUEN is set to 0.
+     * |        |          |· Page Erase command at LOCK mode with ICE connection
+     * |        |          |· Erase or Program command at brown-out detected
+     * |        |          |· Destination address is illegal, such as over an available range.
+     * |        |          |· Invalid ISP commands
+     * |        |          |· Read any content of boot loader with ICE connection
+     * |        |          |· The address of block erase and bank erase is not in APROM
+     * |        |          |· ISP CMD in XOM region, except mass erase, page erase and chksum command
+     * |        |          |· The wrong setting of page erase ISP CMD in XOM
+     * |        |          |· Violate XOM setting one time protection
+     * |        |          |· Page erase ISP CMD in Secure/Non-secure region setting page
+     * |        |          |· Mass erase when MERASE (CFG0[13]) is disabled
+     * |        |          |· Page erase, mass erase, 64-bit word program in OTP
+     * |        |          |· ISP conflict error
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[7]     |DFUEN     |Date Flash Update Enable Bit (Write Protect)
      * |        |          |0 = Data flash cannot be updated.
@@ -162,35 +162,35 @@ typedef struct
      * |[6]     |ISPFF     |ISP Fail Flag
      * |        |          |This bit is the mirror of ISPFF (FMC_ISPCTL[6]), it needs to be cleared by writing 1 to FMC_ISPCTL[6] or FMC_ISPSTS[6]
      * |        |          |This bit is set by hardware when a triggered ISP meets any of the following conditions:
-     * |        |          |u00B7 APROM writes to itself if APUEN is set to 0.
-     * |        |          |u00B7 LDROM writes to itself if LDUEN is set to 0.
-     * |        |          |u00B7 Data Flash writes to itself if DFUEN is set to 0.
-     * |        |          |u00B7 CONFIG is erased/programmed if CFGUEN is set to 0.
-     * |        |          |u00B7 Page Erase command at LOCK mode with ICE connection
-     * |        |          |u00B7 Erase or Program command at brown-out detected
-     * |        |          |u00B7 Destination address is illegal, such as over an available range.
-     * |        |          |u00B7 Invalid ISP commands
-     * |        |          |u00B7 Read any content of boot loader with ICE connection
-     * |        |          |u00B7 The address of block erase and bank erase is not in APROM
-     * |        |          |u00B7 ISP CMD in XOM region, except mass erase, page erase and chksum command
-     * |        |          |u00B7 The wrong setting of page erase ISP CMD in XOM
-     * |        |          |u00B7 Violate XOM setting one time protection
-     * |        |          |u00B7 Page erase ISP CMD in Secure/Non-secure region setting page
-     * |        |          |u00B7 Mass erase when MERASE (CFG0[13]) is disabled
-     * |        |          |u00B7 Page erase, mass erase, 64-bit word program in OTP
-     * |        |          |u00B7 ISP conflict error
+     * |        |          |· APROM writes to itself if APUEN is set to 0.
+     * |        |          |· LDROM writes to itself if LDUEN is set to 0.
+     * |        |          |· Data Flash writes to itself if DFUEN is set to 0.
+     * |        |          |· CONFIG is erased/programmed if CFGUEN is set to 0.
+     * |        |          |· Page Erase command at LOCK mode with ICE connection
+     * |        |          |· Erase or Program command at brown-out detected
+     * |        |          |· Destination address is illegal, such as over an available range.
+     * |        |          |· Invalid ISP commands
+     * |        |          |· Read any content of boot loader with ICE connection
+     * |        |          |· The address of block erase and bank erase is not in APROM
+     * |        |          |· ISP CMD in XOM region, except mass erase, page erase and chksum command
+     * |        |          |· The wrong setting of page erase ISP CMD in XOM
+     * |        |          |· Violate XOM setting one time protection
+     * |        |          |· Page erase ISP CMD in Secure/Non-secure region setting page
+     * |        |          |· Mass erase when MERASE (CFG0[13]) is disabled
+     * |        |          |· Page erase, mass erase, 64-bit word program in OTP
+     * |        |          |· ISP conflict error
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[7]     |ALLONE    |Flash All-one Verification Flag (Write Protect)
-     * |        |          |This bit is set by hardware if all of Flash bits are 1, and cleared if Flash bits are not all 1 after u201CRun Flash All-One Verificationu201D is complete; this bit also can be cleared by writing 1
-     * |        |          |0 = Flash bits are not all 1 after u201CRun Flash All-One Verificationu201D complete.
-     * |        |          |1 = All of Flash bits are 1 after u201CRun Flash All-One Verificationu201D complete.
+     * |        |          |This bit is set by hardware if all of Flash bits are 1, and cleared if Flash bits are not all 1 after "Run Flash All-One Verification" is complete; this bit also can be cleared by writing 1
+     * |        |          |0 = Flash bits are not all 1 after "Run Flash All-One Verification" complete.
+     * |        |          |1 = All of Flash bits are 1 after "Run Flash All-One Verification" complete.
      * |[8]     |INTFLAG   |ISP Interrupt Flag (Write Protect)
      * |        |          |This bit shows when FMC occurs interrupt, it needs to be cleared by writing 1 to FMC_ISPSTS[8].
      * |        |          |0 = ISP Not Finished.
      * |        |          |1 = ISP done or ISPFF set.
      * |        |          |Note: This function needs to be enabled by FMC_ISPCTRL[24].
      * |[27:10] |VECMAP    |Vector Page Mapping Address (Read Only)
-     * |        |          |All access to 0x0000_0000~0x0000_03FF is remapped to the Flash memory address {VECMAP[17:0], 10u2019h000} ~ {VECMAP[17:0], 10u2019h3FF}
+     * |        |          |All access to 0x0000_0000~0x0000_03FF is remapped to the Flash memory address {VECMAP[17:0], 10'h000} ~ {VECMAP[17:0], 10'h3FF}
      * |[28]    |ISPCERR   |ISP Conflict Error
      * |        |          |This bit shows when FMC is doing ISP operation, it needs to be cleared by writing 1 to FMC_ISPSTS[28]
      * |        |          |User cannot access FMC_ISP_ADDR,FMC_ISPDAT,FMC_ISPCMD,FMC_ISPTRG

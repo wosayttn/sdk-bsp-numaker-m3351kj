@@ -1422,21 +1422,16 @@ void ELLSI_ClearCmdIntFlag(ELLSI_T *ellsi, uint32_t u32Mask)
   */
 int32_t ELLSI_GetOverflowFlag(ELLSI_T *ellsi, uint32_t u32ID)
 {
-    uint32_t i;
-    uint32_t FBPOV;
+    uint32_t u32Idx;
 
-    if ((u32ID == 0) || (u32ID >= 16))
-        return -1;
-
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15))
     {
-        FBPOV = ellsi->FB[i].FBPCNT;
-
-        if (i == (u32ID - 1))
-            break;
+        return -1;
     }
 
-    return (FBPOV & ELLSI_FBPCNT_FBPOV_Msk) >> ELLSI_FBPCNT_FBPOV_Pos;
+    u32Idx = u32ID - 1;
+
+    return (int32_t)((ellsi->FB[u32Idx].FBPCNT & ELLSI_FBPCNT_FBPOV_Msk) >> ELLSI_FBPCNT_FBPOV_Pos);
 }
 
 /**
@@ -1448,16 +1443,16 @@ int32_t ELLSI_GetOverflowFlag(ELLSI_T *ellsi, uint32_t u32ID)
   */
 void ELLSI_ClearOverflowFlag(ELLSI_T *ellsi, uint32_t u32ID)
 {
-    uint32_t i;
-    uint32_t *FBPOV;
+    uint32_t u32Idx;
 
-    for (i = 0; i < ELLSI_MAX_STRIP_CNT; i++)
+    if ((u32ID == 0) || (u32ID > 15))
     {
-        FBPOV = (uint32_t *)((uint32_t)&ellsi->FB[i].FBPCNT);
-
-        if (i == (u32ID - 1))
-            *FBPOV = *FBPOV & ELLSI_FBPCNT_FBPOV_Msk;
+        return;
     }
+
+    u32Idx = u32ID - 1;
+
+    ellsi->FB[u32Idx].FBPCNT |= ELLSI_FBPCNT_FBPOV_Msk;
 }
 
 /** @} end of group ELLSI_EXPORTED_FUNCTIONS */

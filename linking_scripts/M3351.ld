@@ -178,7 +178,6 @@ SECTIONS
    */
   __etext = ALIGN (4);
 
-/*
   .stack (ORIGIN(SRAM)) (NOLOAD) :
   {
     . = ALIGN(8);
@@ -187,7 +186,9 @@ SECTIONS
     . = ALIGN(8);
     __INITIAL_SP = .;
   } > SRAM
-*/
+  PROVIDE(__stack = __INITIAL_SP);
+  PROVIDE(__StackTop = __INITIAL_SP);
+  PROVIDE(__StackLimit = __STACK_LIMIT);
 
   .heap (NOLOAD) :
   {
@@ -195,15 +196,44 @@ SECTIONS
     __end__ = .;
     PROVIDE(end = .);
     . = . + __HEAP_SIZE;
+    . = ALIGN(8);
     __HeapLimit = .;
   } > SRAM
+
+
 
   .data : AT (__etext)
   {
     __data_start__ = .;
     *(vtable)
-    *(.data*)
+    *(.data)
+    *(.data.*)
+
     . = ALIGN(4);
+    /* preinit data */
+    PROVIDE_HIDDEN (__preinit_array_start = .);
+    KEEP(*(.preinit_array))
+    PROVIDE_HIDDEN (__preinit_array_end = .);
+
+    . = ALIGN(4);
+    PROVIDE(__ctors_start__ = .);
+    /* init data */
+    PROVIDE_HIDDEN (__init_array_start = .);
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array))
+    PROVIDE_HIDDEN (__init_array_end = .);
+    PROVIDE(__ctors_end__ = .);
+
+    . = ALIGN(4);
+    /* finit data */
+    PROVIDE_HIDDEN (__fini_array_start = .);
+    KEEP(*(SORT(.fini_array.*)))
+    KEEP(*(.fini_array))
+    PROVIDE_HIDDEN (__fini_array_end = .);
+
+    KEEP(*(.jcr*))
+    . = ALIGN(4);
+    /* All data end */
     __data_end__ = .;
   } > SRAM
 
@@ -211,23 +241,10 @@ SECTIONS
   {
     . = ALIGN(4);
     __bss_start__ = .;
-    *(.bss*)
+    *(.bss)
+    *(.bss.*)
     *(COMMON)
     . = ALIGN(4);
     __bss_end__ = .;
-  } > SRAM
-
-  .stack (ORIGIN(SRAM) + LENGTH(SRAM) - __STACK_SIZE) (NOLOAD) :
-  {
-    . = ALIGN(8);
-    __STACK_LIMIT = .;
-    . = . + __STACK_SIZE;
-    . = ALIGN(8);
-    __INITIAL_SP = .;
-  } > SRAM
-
-  PROVIDE(__stack = __INITIAL_SP);
-  PROVIDE(__StackTop = __INITIAL_SP);
-  PROVIDE(__StackLimit = __STACK_LIMIT);
-
+  } > SRAM AT > SRAM
 }

@@ -99,7 +99,7 @@ extern "C"
 #define SYS_BODCTL_BOD_RST_EN           (1UL << SYS_BODCTL_BODRSTEN_Pos)    /*!< Brown-out Reset Enable \hideinitializer */
 #define SYS_BODCTL_BOD_INTERRUPT_EN     (0UL << SYS_BODCTL_BODRSTEN_Pos)    /*!< Brown-out Interrupt Enable \hideinitializer */
 
-#define SYS_BODCTL_BODVL_2_7V           (0xAUL << SYS_BODCTL_BODVL_Pos)     /*!< Setting Brown Out Detector Threshold Voltage as 2.7V \hideinitializer */
+#define SYS_BODCTL_BODVL_2_8V           (0xBUL << SYS_BODCTL_BODVL_Pos)     /*!< Setting Brown Out Detector Threshold Voltage as 2.8V \hideinitializer */
 #define SYS_BODCTL_BODVL_3_7V           (0xDUL << SYS_BODCTL_BODVL_Pos)     /*!< Setting Brown Out Detector Threshold Voltage as 3.7V \hideinitializer */
 #define SYS_BODCTL_BODVL_4_4V           (0xFUL << SYS_BODCTL_BODVL_Pos)     /*!< Setting Brown Out Detector Threshold Voltage as 4.4V \hideinitializer */
 
@@ -2221,7 +2221,7 @@ extern "C"
 /**
   * @brief      Set Brown-out detector voltage level
   * @param[in]  u32Level is Brown-out voltage level. Including :
-  *             - \ref SYS_BODCTL_BODVL_2_7V
+  *             - \ref SYS_BODCTL_BODVL_2_8V
   *             - \ref SYS_BODCTL_BODVL_3_7V
   *             - \ref SYS_BODCTL_BODVL_4_4V
   * @return     None
